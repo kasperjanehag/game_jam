@@ -18,4 +18,7 @@ public class GameConfig : ScriptableObject
 
     [Header("Enemy")]
     public float WaveInterval = 2f;
+    public int EnemiesPerWave = 4;
+    public float AttackRange = 2f;
+    public float EnemySpeed = 3f;
 }

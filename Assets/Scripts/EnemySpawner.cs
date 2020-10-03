@@ -23,8 +23,9 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        enemiesPerWave = GameManager.Instance.Config.EnemiesPerWave;
         //Wait 10 seconds for new wave to start
-        newWaveTimer = GameManager.Instance.Config.WaveInterval;
+        spawnInterval = GameManager.Instance.Config.WaveInterval;
         waitingForWave = true;       
     }
 

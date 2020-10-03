@@ -33,7 +33,8 @@ public class Enemy : MonoBehaviour,IEntity
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         agent.stoppingDistance = attackDistance;
-        agent.speed = movementSpeed;
+        agent.speed = GameManager.Instance.Config.EnemySpeed;
+        attackDistance = GameManager.Instance.Config.AttackRange;
         r = GetComponent<Rigidbody>();
         r.useGravity = false;
         r.isKinematic = true; 
