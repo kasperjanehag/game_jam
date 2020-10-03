@@ -18,4 +18,4 @@ MonoBehaviour:
   BulletSpeed: 10
   BulletDeathTime: 2
   BulletDamage: 50
-  WaveInterval: 5
+  WaveInterval: 2

@@ -17,5 +17,5 @@ public class GameConfig : ScriptableObject
     public float BulletDamage = 50f;
 
     [Header("Enemy")]
-    public float WaveInterval = 5f;
+    public float WaveInterval = 2f;
 }

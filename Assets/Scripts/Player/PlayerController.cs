@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_jumpHeight = 3f;
 
     private bool m_isShooting;
+    private bool m_canMove;
 
     private Vector3 playerVelocity;
     private bool isGrounded;
@@ -16,10 +17,12 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         Cursor.visible = true;
+        m_canMove = true;
     }
 
     void Update()
     {
+        if(!m_canMove) return;
         var moveX = Input.GetAxis("Horizontal");
         var moveY = Input.GetAxis("Vertical");
 
@@ -39,7 +42,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector3 lookTarget = new Vector3();
-        var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit[] hits = Physics.RaycastAll(ray);
         foreach (var hit in hits)
@@ -59,6 +62,11 @@ public class PlayerController : MonoBehaviour
 
         playerVelocity.y += GameManager.Instance.Config.PlayerGravity * Time.deltaTime;
         m_characterController.Move(playerVelocity * Time.deltaTime);
+    }
+
+    public void setCanMove(bool canMove)
+    {
+        m_canMove = canMove;
     }
 
     private IEnumerator SpawnBulletAfterDelay()
