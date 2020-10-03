@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public enum PlayerColor
@@ -116,46 +118,63 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        m_characterController.enabled = false;
-        if (collision.gameObject.tag == "portal1")
-        {
-            m_currentColor = PlayerColor.Red;
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
-            var PortalTransform = GameObject.FindWithTag("portal2").transform;
-            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
-        }
-
-        if (collision.gameObject.tag == "portal2")
-        {
-            m_currentColor = PlayerColor.Green;
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
-            var PortalTransform = GameObject.FindWithTag("portal1").transform;
-            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
-        }
-
-        if (collision.gameObject.tag == "portal3")
-        {
-            m_currentColor = PlayerColor.Blue;
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
-            var PortalTransform = GameObject.FindWithTag("portal4").transform;
-            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
-        }
-
-        if (collision.gameObject.tag == "portal4")
-        {
-            m_currentColor = PlayerColor.Yellow;
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
-            var PortalTransform = GameObject.FindWithTag("portal3").transform;
-            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
-        }
-
         if (collision.gameObject.tag == "bullet")
         {
             Destroy(collision.gameObject);
             cameraShake.shakeDuration = 0.1f;
         }
+    }
 
-        m_characterController.enabled = true;
+
+
+    void OnControllerColliderHit(ControllerColliderHit collision)
+    {
+
+        if (collision.gameObject.tag == "portal1")
+        {
+            m_characterController.enabled = false;
+            m_currentColor = PlayerColor.Red;
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+            var PortalTransform = GameObject.FindWithTag("portal2").transform;
+            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
+            m_characterController.enabled = true;
+        }
+
+        if (collision.gameObject.tag == "portal2")
+        {
+            m_characterController.enabled = false;
+            m_currentColor = PlayerColor.Green;
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+            var PortalTransform = GameObject.FindWithTag("portal1").transform;
+            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
+            m_characterController.enabled = true;
+
+        }
+
+        if (collision.gameObject.tag == "portal3")
+        {
+            m_characterController.enabled = false;
+            m_currentColor = PlayerColor.Blue;
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
+            var PortalTransform = GameObject.FindWithTag("portal4").transform;
+            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
+            m_characterController.enabled = true;
+
+        }
+
+        if (collision.gameObject.tag == "portal4")
+        {
+            m_characterController.enabled = false;
+            m_currentColor = PlayerColor.Yellow;
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
+            var PortalTransform = GameObject.FindWithTag("portal3").transform;
+            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
+            m_characterController.enabled = true;
+        }
+
+
+
+
 
     }
 
