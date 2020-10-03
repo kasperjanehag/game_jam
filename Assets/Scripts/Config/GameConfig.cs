@@ -7,6 +7,7 @@ using UnityEngine;
 public class GameConfig : ScriptableObject
 {
     [Header("Player")]
+    public int PlayerHealth = 3;
     public float PlayerSpeed = 5f;
     public float PlayerGravity = -10f;
 
