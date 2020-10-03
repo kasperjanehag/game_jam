@@ -64,11 +64,23 @@ public class EnemySpawner : MonoBehaviour
                 }
             }
         }
+        if (player.playerHP <= 0)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Scene scene = SceneManager.GetActiveScene();
+                SceneManager.LoadScene(scene.name);
+            }
+        }
     }
 
 
     void OnGUI() {
         GUI.Box(new Rect(10, Screen.height - 35, 100, 25), ((int)player.playerHP).ToString() + " HP");
+        if(player.playerHP <= 0)
+        {
+            GUI.Box(new Rect(Screen.width / 2 - 75, Screen.height / 2 - 20, 150, 40), "Game Over\nPress 'Space' to Restart");
+        }
     }
 
 
