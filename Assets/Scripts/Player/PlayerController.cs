@@ -24,11 +24,6 @@ public class PlayerController : MonoBehaviour
         var moveValue = move * Time.deltaTime * m_speed;
         m_characterController.Move(moveValue);
 
-        if (move != Vector3.zero)
-        {
-            gameObject.transform.forward = move;
-        }
-
         Vector3 lookTarget = new Vector3();
         var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 

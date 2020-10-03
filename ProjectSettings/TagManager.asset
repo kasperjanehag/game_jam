@@ -9,7 +9,11 @@ TagManager:
   - portal2
   - portal3
   - portal4
+<<<<<<< HEAD
   - enemy
+=======
+  - GroundPlane
+>>>>>>> 4486b86545f4207520e64538b8692e310a3b95df
   layers:
   - Default
   - TransparentFX

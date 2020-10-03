@@ -137,12 +137,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d6dbaa0d4620477c9f6713260378cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   m_enemyPrefabs:
   - {fileID: 2299064831510016552, guid: b8dd047a25a865845b5fc60108b14af4, type: 3}
   - {fileID: 2299064831510016552, guid: db6cb42e5ab554b3ab6cc0fd09f4733c, type: 3}
   - {fileID: 2299064831510016552, guid: c57ebc33f9f253b4aaae1f9a6a492c27, type: 3}
   - {fileID: 2299064831510016552, guid: c82330e96349fa34f88a2536a0397572, type: 3}
-  playerTransform: {fileID: 0}
   spawnInterval: 2
   enemiesPerWave: 20
   spawnPoints:
