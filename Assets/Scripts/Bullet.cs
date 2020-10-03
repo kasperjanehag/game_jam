@@ -6,8 +6,6 @@ public class Bullet : MonoBehaviour
 {
     private Vector3 m_direction;
 
-    private const float BULLET_SPEED = 8f;
-
     public void Fire(Vector3 direction)
     {
         m_direction = direction;
@@ -16,12 +14,12 @@ public class Bullet : MonoBehaviour
 
     private IEnumerator DestroyAfterDelay()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(GameManager.Instance.Config.ShootDelay);
         Destroy(gameObject);
     }
 
     private void Update()
     {
-        transform.position += m_direction * Time.deltaTime * BULLET_SPEED;
+        transform.position += m_direction * Time.deltaTime * GameManager.Instance.Config.BulletSpeed;
     }
 }
