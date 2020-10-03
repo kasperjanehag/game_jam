@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_jumpHeight = 3f;
     [SerializeField] private bool m_isSecondPlayer;
 
+    [SerializeField] private CameraShake cameraShake;
+
     private const float GRAVITY = -70f;
     private bool m_isShooting;
     private bool m_canMove;
@@ -95,6 +97,16 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(SpawnBulletAfterDelay());
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "bullet")
+        {
+            Destroy(collision.gameObject);  
+            cameraShake.shakeDuration = 0.1f;
+        }
+    }
+
 
     public void setCanMove(bool canMove)
     {

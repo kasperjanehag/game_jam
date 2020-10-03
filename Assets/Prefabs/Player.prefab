@@ -118,6 +118,7 @@ MonoBehaviour:
     type: 3}
   m_jumpHeight: 3
   m_isSecondPlayer: 0
+  cameraShake: {fileID: 0}
 --- !u!114 &2010481891194963152
 MonoBehaviour:
   m_ObjectHideFlags: 0
