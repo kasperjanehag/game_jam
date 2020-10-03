@@ -21,4 +21,7 @@ public class GameConfig : ScriptableObject
     public int EnemiesPerWave = 4;
     public float AttackRange = 2f;
     public float EnemySpeed = 3f;
+
+    [Header("Portal")]
+    public float portalRotationSpeed = 10f;
 }
