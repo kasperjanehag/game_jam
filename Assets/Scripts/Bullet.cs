@@ -14,7 +14,7 @@ public class Bullet : MonoBehaviour
 
     private IEnumerator DestroyAfterDelay()
     {
-        yield return new WaitForSeconds(GameManager.Instance.Config.ShootDelay);
+        yield return new WaitForSeconds(GameManager.Instance.Config.BulletDeathTime);
         Destroy(gameObject);
     }
 

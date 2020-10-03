@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CharacterController m_characterController;
     [SerializeField] private float m_speed;
     [SerializeField] private GameObject m_bullet;
-    [SerializeField] private float m_shootDelay;
 
     private bool m_isShooting;
 
@@ -34,9 +33,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator SpawnBulletAfterDelay()
     {
-        var bullet = Instantiate(m_bullet, transform.position + transform.forward * 3f, Quaternion.identity);
+        var bullet = Instantiate(m_bullet, transform.position + transform.forward * 2f, Quaternion.identity);
         bullet.GetComponent<Bullet>().Fire(transform.forward);
-        yield return new WaitForSeconds(m_shootDelay);
+        yield return new WaitForSeconds(GameManager.Instance.Config.ShootDelay);
         m_isShooting = false;
     }
 }
