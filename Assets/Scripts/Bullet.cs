@@ -50,7 +50,8 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.tag == "portal1")
         {
-            transform.position = GameObject.FindWithTag("portal2").transform.position + offsetVecForward;
+            Vector3 portalPosition = GameObject.FindWithTag("portal2").transform.position;
+            transform.position = new Vector3(portalPosition.x, transform.position.y,portalPosition.z) + offsetVecForward;
             gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
             gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.red* 4f);
             m_currentType = BulletType.Red;
@@ -58,7 +59,8 @@ public class Bullet : MonoBehaviour
 
         if (collision.gameObject.tag == "portal2")
         {
-            transform.position = GameObject.FindWithTag("portal1").transform.position - offsetVecForward;
+            Vector3 portalPosition = GameObject.FindWithTag("portal1").transform.position;
+            transform.position = new Vector3(portalPosition.x, transform.position.y,portalPosition.z) - offsetVecForward;
             gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
             gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.green * 4f);
             m_currentType = BulletType.Green;
@@ -66,7 +68,8 @@ public class Bullet : MonoBehaviour
 
         if (collision.gameObject.tag == "portal3")
         {
-            transform.position = GameObject.FindWithTag("portal4").transform.position + offsetVecSide;
+            Vector3 portalPosition = GameObject.FindWithTag("portal4").transform.position;
+            transform.position = new Vector3(portalPosition.x, transform.position.y,portalPosition.z) + offsetVecSide;
             gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
             gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.blue * 4f);
             m_currentType = BulletType.Blue;
@@ -74,7 +77,8 @@ public class Bullet : MonoBehaviour
 
         if (collision.gameObject.tag == "portal4")
         {
-            transform.position = GameObject.FindWithTag("portal3").transform.position - offsetVecSide;
+            Vector3 portalPosition = GameObject.FindWithTag("portal3").transform.position;
+            transform.position = new Vector3(portalPosition.x, transform.position.y,portalPosition.z) - offsetVecSide;
             gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
             gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.yellow * 4f);
             m_currentType = BulletType.Yellow;
