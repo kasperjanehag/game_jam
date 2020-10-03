@@ -5,13 +5,17 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     private Vector3 m_direction;
+    Color colour;
 
-    float damagePoints = 50;
+    float damagePoints = GameManager.Instance.Config.BulletDamage;
 
     private const float BULLET_SPEED = 8f;
     private Vector3 offsetVecForward = new Vector3(0.0f, 0.0f, 0.5f);
     private Vector3 offsetVecSide = new Vector3(0.5f, 0.0f, 0.0f);
 
+    void Start()
+    {
+    }
     public void Fire(Vector3 direction)
     {
         m_direction = direction;
@@ -29,21 +33,28 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.tag == "portal1")
         {
             transform.position = GameObject.FindWithTag("portal2").transform.position + offsetVecForward;
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
         }
 
         if (collision.gameObject.tag == "portal2")
         {
             transform.position = GameObject.FindWithTag("portal1").transform.position - offsetVecForward;
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+
         }
 
         if (collision.gameObject.tag == "portal3")
         {
             transform.position = GameObject.FindWithTag("portal4").transform.position + offsetVecSide;
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
+
         }
 
         if (collision.gameObject.tag == "portal4")
         {
             transform.position = GameObject.FindWithTag("portal3").transform.position - offsetVecSide;
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
+
         }
         if (collision.gameObject.tag == "enemy")
         {
