@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab;
-    public Transform playerTransform;
+    public DamageReceiver player;
+    public GameObject[] m_enemyPrefabs;
     public float spawnInterval = 2; //Spawn new enemy each n seconds
     public int enemiesPerWave = 5; //How many enemies per wave
     public Transform[] spawnPoints;
@@ -56,16 +55,29 @@ public class EnemySpawner : MonoBehaviour
                 //Spawn enemy 
                 if(totalEnemiesSpawned < enemiesToEliminate)
                 {
-                    Transform randomPoint = spawnPoints[Random.Range(0, spawnPoints.Length - 1)];
 
-                    GameObject enemy = Instantiate(enemyPrefab, randomPoint.position, Quaternion.identity);
+                    var enemy = SpawnRandomEnemy();
                     Enemy npc = enemy.GetComponent<Enemy>();
-                    npc.playerTransform = playerTransform;
+                    npc.playerTransform = player.transform;
                     npc.es = this;
                     totalEnemiesSpawned++;
                 }
             }
         }
+    }
+
+
+    void OnGUI() {
+        GUI.Box(new Rect(10, Screen.height - 35, 100, 25), ((int)player.playerHP).ToString() + " HP");
+    }
+
+
+    private GameObject SpawnRandomEnemy()
+    {
+        var index = (int)Random.Range(0f, m_enemyPrefabs.Length);
+        Transform randomPoint = spawnPoints[Random.Range(0, spawnPoints.Length - 1)];
+        GameObject enemy = Instantiate(m_enemyPrefabs[index], randomPoint.position, Quaternion.identity);
+        return enemy;
     }
 
     public void EnemyEliminated(Enemy enemy)

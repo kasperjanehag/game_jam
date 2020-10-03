@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.AssetImporters;
 using UnityEngine;
 using UnityEngine.AI;
+
 [RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 
 public class Enemy : MonoBehaviour,IEntity
 {
+    [SerializeField] private BulletType m_bulletType;
 
     public float attackDistance = 3f;
     public float movementSpeed = 4f;
@@ -42,7 +44,18 @@ public class Enemy : MonoBehaviour,IEntity
         if (collision.gameObject.tag == "bullet")
         {
             Destroy(collision.gameObject);
-            Destroy(gameObject);
+
+            if (collision.gameObject.GetComponent<Bullet>().CurrentBulletType == m_bulletType)
+            {
+                Debug.Log("Bullet hit enemy!");
+                Destroy(gameObject);
+
+                IEntity npc = collision.gameObject.transform.GetComponent<IEntity>();
+                if (npc != null)
+                {
+                    npc.ApplyDamage(GameManager.Instance.Config.BulletDamage);
+                }
+            }
         }
     }
 
@@ -52,23 +65,23 @@ public class Enemy : MonoBehaviour,IEntity
         if (agent.remainingDistance - attackDistance < 0.01f)
         {
             // Fire logic
-            // if(Time.time > nextAttackTime)
-            // {
-            //     nextAttackTime = Time.time + attackRate;
+            if(Time.time > nextAttackTime)
+            {
+                nextAttackTime = Time.time + attackRate;
 
-            //     //Attack
-            //     RaycastHit hit;
-            //     if(Physics.Raycast(firePoint.position, firePoint.forward, out hit, attackDistance))
-            //     {
-            //         if (hit.transform.CompareTag("Player"))
-            //         {
-            //             Debug.DrawLine(firePoint.position, firePoint.position + firePoint.forward * attackDistance, Color.cyan);
+                //Attack
+                RaycastHit hit;
+                if(Physics.Raycast(firePoint.position, firePoint.forward, out hit, attackDistance))
+                {
+                    if (hit.transform.CompareTag("Player"))
+                    {
+                        Debug.DrawLine(firePoint.position, firePoint.position + firePoint.forward * attackDistance, Color.cyan);
 
-            //             IEntity player = hit.transform.GetComponent<IEntity>();
-            //             player.ApplyDamage(npcDamage);
-            //         }
-            //     }
-            // }
+                        IEntity player = hit.transform.GetComponent<IEntity>();
+                        player.ApplyDamage(npcDamage);
+                    }
+                }
+            }
         }
         //Move towardst he player
         agent.destination = playerTransform.position;
@@ -85,10 +98,10 @@ public class Enemy : MonoBehaviour,IEntity
         if(npcHP <= 0)
         {
             //Destroy the NPC
-            GameObject npcDead = Instantiate(npcDeadPrefab, transform.position, transform.rotation);
+            // GameObject npcDead = Instantiate(npcDeadPrefab, transform.position, transform.rotation);
             //Slightly bounce the npc dead prefab up
-            npcDead.GetComponent<Rigidbody>().velocity = (-(playerTransform.position - transform.position).normalized * 8) + new Vector3(0, 5, 0);
-            Destroy(npcDead, 10);
+            // npcDead.GetComponent<Rigidbody>().velocity = (-(playerTransform.position - transform.position).normalized * 8) + new Vector3(0, 5, 0);
+            // Destroy(npcDead, 10);
             es.EnemyEliminated(this);
             Destroy(gameObject);
         }

@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aaa9374bf803174db9b253c6c4fbd48, type: 3}
   m_Name: DefaultGameConfig
   m_EditorClassIdentifier: 
-  CannonBallBigSpeed: 2.5
-  CannonBallSpeed: 5
-  CannonBallDestroyDelay: 5
+  ShootDelay: 0.5
+  BulletSpeed: 10
+  BulletDeathTime: 2
+  BulletDamage: 50
+  WaveInterval: 5
