@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.AssetImporters;
 using UnityEngine;
 using UnityEngine.AI;
+
 [RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 
 public class Enemy : MonoBehaviour,IEntity
 {
-
     public float attackDistance = 3f;
     public float movementSpeed = 4f;
     public float npcHP = 100;
