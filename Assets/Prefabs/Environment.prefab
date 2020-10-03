@@ -288,7 +288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4624285408959392866}
   m_Layer: 0
-  m_Name: Environment 1
+  m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -403,7 +403,7 @@ GameObject:
   - component: {fileID: 4624285409374378516}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: GroundPlane
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
