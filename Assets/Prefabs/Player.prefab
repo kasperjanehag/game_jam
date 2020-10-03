@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHP: 100
+  playerController: {fileID: 554170219}
 --- !u!1 &7948248155332415939
 GameObject:
   m_ObjectHideFlags: 0

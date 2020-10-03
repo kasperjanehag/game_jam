@@ -9,14 +9,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject m_bullet;
 
     private bool m_isShooting;
+    private bool m_canMove;
 
     void Start()
     {
         Cursor.visible = true;
+        m_canMove = true;
     }
 
     void Update()
     {
+        if(!m_canMove) return;
         var moveX = Input.GetAxis("Horizontal");
         var moveY = Input.GetAxis("Vertical");
 
@@ -25,7 +28,7 @@ public class PlayerController : MonoBehaviour
         m_characterController.Move(moveValue);
 
         Vector3 lookTarget = new Vector3();
-        var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit[] hits = Physics.RaycastAll(ray);
         foreach (var hit in hits)
@@ -42,6 +45,11 @@ public class PlayerController : MonoBehaviour
             m_isShooting = true;
             StartCoroutine(SpawnBulletAfterDelay());
         }
+    }
+
+    public void setCanMove(bool canMove)
+    {
+        m_canMove = canMove;
     }
 
     private IEnumerator SpawnBulletAfterDelay()
