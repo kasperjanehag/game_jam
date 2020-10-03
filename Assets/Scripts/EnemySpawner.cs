@@ -7,8 +7,7 @@ using UnityEngine.SceneManagement;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    public DamageReceiver player;
-    public Texture crosshairTexture;
+    public Transform playerTransform;
     public float spawnInterval = 2; //Spawn new enemy each n seconds
     public int enemiesPerWave = 5; //How many enemies per wave
     public Transform[] spawnPoints;
@@ -65,19 +64,10 @@ public class EnemySpawner : MonoBehaviour
 
                     GameObject enemy = Instantiate(enemyPrefab, randomPoint.position, Quaternion.identity);
                     Enemy npc = enemy.GetComponent<Enemy>();
-                    npc.playerTransform = player.transform;
+                    npc.playerTransform = playerTransform;
                     npc.es = this;
                     totalEnemiesSpawned++;
                 }
-            }
-        }
-
-        if (player.playerHP <= 0)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Scene scene = SceneManager.GetActiveScene();
-                SceneManager.LoadScene(scene.name);
             }
         }
     }
