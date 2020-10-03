@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.AssetImporters;
 using UnityEngine;
 using UnityEngine.AI;
 [RequireComponent(typeof(UnityEngine.AI.NavMeshAgent))]
@@ -34,6 +35,15 @@ public class Enemy : MonoBehaviour,IEntity
         r = GetComponent<Rigidbody>();
         r.useGravity = false;
         r.isKinematic = true; 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "bullet")
+        {
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
     }
 
     // Update is called once per frame

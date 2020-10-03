@@ -139,8 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2299064831510016552, guid: db6cb42e5ab554b3ab6cc0fd09f4733c,
     type: 3}
-  player: {fileID: 0}
-  crosshairTexture: {fileID: 0}
+  playerTransform: {fileID: 0}
   spawnInterval: 2
   enemiesPerWave: 20
   spawnPoints:
