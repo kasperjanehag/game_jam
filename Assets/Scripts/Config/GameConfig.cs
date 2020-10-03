@@ -10,4 +10,7 @@ public class GameConfig : ScriptableObject
     public float ShootDelay = 0.5f;
     public float BulletSpeed = 10f;
     public float BulletDeathTime = 2f;
+
+    [Header("Enemy")]
+    public float WaveInterval = 5f;
 }

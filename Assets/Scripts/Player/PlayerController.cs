@@ -10,6 +10,11 @@ public class PlayerController : MonoBehaviour
 
     private bool m_isShooting;
 
+    void Start()
+    {
+        Cursor.visible = true;
+    }
+
     void Update()
     {
         var moveX = Input.GetAxis("Horizontal");
@@ -22,6 +27,19 @@ public class PlayerController : MonoBehaviour
         if (move != Vector3.zero)
         {
             gameObject.transform.forward = move;
+        }
+
+        Vector3 lookTarget = new Vector3();
+        var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+
+        RaycastHit[] hits = Physics.RaycastAll(ray);
+        foreach (var hit in hits)
+        {
+            if (hit.transform.tag == "GroundPlane")
+            {
+                Debug.DrawLine(transform.position, hit.point);
+                transform.LookAt(new Vector3(hit.point.x, transform.position.y, hit.point.z));
+            }
         }
 
         if (Input.GetMouseButton(0) && !m_isShooting)

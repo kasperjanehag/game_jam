@@ -24,12 +24,8 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Lock cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
         //Wait 10 seconds for new wave to start
-        newWaveTimer = 10;
+        newWaveTimer = GameManager.Instance.Config.WaveInterval;
         waitingForWave = true;       
     }
 
