@@ -9,6 +9,8 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour,IEntity
 {
+    [SerializeField] private BulletType m_bulletType;
+
     public float attackDistance = 3f;
     public float movementSpeed = 4f;
     public float npcHP = 100;
@@ -35,6 +37,26 @@ public class Enemy : MonoBehaviour,IEntity
         r = GetComponent<Rigidbody>();
         r.useGravity = false;
         r.isKinematic = true; 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "bullet")
+        {
+            Destroy(collision.gameObject);
+
+            if (collision.gameObject.GetComponent<Bullet>().CurrentBulletType == m_bulletType)
+            {
+                Debug.Log("Bullet hit enemy!");
+                Destroy(gameObject);
+
+                IEntity npc = collision.gameObject.transform.GetComponent<IEntity>();
+                if (npc != null)
+                {
+                    npc.ApplyDamage(GameManager.Instance.Config.BulletDamage);
+                }
+            }
+        }
     }
 
     // Update is called once per frame

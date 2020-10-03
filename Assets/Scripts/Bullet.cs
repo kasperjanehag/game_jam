@@ -2,8 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BulletType
+{
+    None,
+    Red,
+    Blue,
+    Green,
+    Yellow
+}
+
 public class Bullet : MonoBehaviour
 {
+    public BulletType CurrentBulletType
+    {
+        get => m_currentType;
+    }
+
     private Vector3 m_direction;
     Color colour;
 
@@ -17,6 +31,9 @@ public class Bullet : MonoBehaviour
     {
         damagePoints = GameManager.Instance.Config.BulletDamage;
     }
+    
+    private BulletType m_currentType = BulletType.None;
+
     public void Fire(Vector3 direction)
     {
         m_direction = direction;
@@ -36,7 +53,7 @@ public class Bullet : MonoBehaviour
             transform.position = GameObject.FindWithTag("portal2").transform.position + offsetVecForward;
             gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
             gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.red* 4f);
-
+            m_currentType = BulletType.Red;
         }
 
         if (collision.gameObject.tag == "portal2")
@@ -44,8 +61,7 @@ public class Bullet : MonoBehaviour
             transform.position = GameObject.FindWithTag("portal1").transform.position - offsetVecForward;
             gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
             gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.green * 4f);
-
-
+            m_currentType = BulletType.Green;
         }
 
         if (collision.gameObject.tag == "portal3")
@@ -53,8 +69,7 @@ public class Bullet : MonoBehaviour
             transform.position = GameObject.FindWithTag("portal4").transform.position + offsetVecSide;
             gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
             gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.blue * 4f);
-
-
+            m_currentType = BulletType.Blue;
         }
 
         if (collision.gameObject.tag == "portal4")
@@ -62,21 +77,8 @@ public class Bullet : MonoBehaviour
             transform.position = GameObject.FindWithTag("portal3").transform.position - offsetVecSide;
             gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
             gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.yellow * 4f);
-
-
+            m_currentType = BulletType.Yellow;
         }
-        if (collision.gameObject.tag == "enemy")
-        {
-
-            Destroy(gameObject);
-            IEntity npc = collision.gameObject.transform.GetComponent<IEntity>();
-            if (npc != null)
-            {
-                //Apply damage to NPC
-                npc.ApplyDamage(damagePoints);
-            }
-        }
-        
     }
 
         private void Update()

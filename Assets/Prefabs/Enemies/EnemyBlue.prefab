@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f922adeb0d0d4be28e65afb3d9b54c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_bulletType: 2
   attackDistance: 3
   movementSpeed: 4
   npcHP: 100
