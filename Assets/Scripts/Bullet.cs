@@ -34,9 +34,11 @@ public class Bullet : MonoBehaviour
     
     private BulletType m_currentType = BulletType.None;
 
-    public void Fire(Vector3 direction)
+    public void Fire(Vector3 direction, BulletType bulletType)
     {
         m_direction = direction;
+        m_currentType = bulletType;
+        SetColor(m_currentType);
         StartCoroutine(DestroyAfterDelay());
     }
 
@@ -51,38 +53,61 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.tag == "portal1")
         {
             transform.position = GameObject.FindWithTag("portal2").transform.position + offsetVecForward;
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
-            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.red* 4f);
             m_currentType = BulletType.Red;
+            SetColor(m_currentType);
         }
 
         if (collision.gameObject.tag == "portal2")
         {
             transform.position = GameObject.FindWithTag("portal1").transform.position - offsetVecForward;
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
-            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.green * 4f);
             m_currentType = BulletType.Green;
+            SetColor(m_currentType);
         }
 
         if (collision.gameObject.tag == "portal3")
         {
             transform.position = GameObject.FindWithTag("portal4").transform.position + offsetVecSide;
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
-            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.blue * 4f);
             m_currentType = BulletType.Blue;
+            SetColor(m_currentType);
         }
 
         if (collision.gameObject.tag == "portal4")
         {
             transform.position = GameObject.FindWithTag("portal3").transform.position - offsetVecSide;
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
-            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.yellow * 4f);
             m_currentType = BulletType.Yellow;
+            SetColor(m_currentType);
         }
     }
 
         private void Update()
     {
         transform.position += m_direction * Time.deltaTime * GameManager.Instance.Config.BulletSpeed;
+    }
+
+    private void SetColor(BulletType type)
+    {
+        if (type == BulletType.Red)
+        {
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.red * 4f);
+        }
+
+        if (type == BulletType.Blue)
+        {
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.blue * 4f);
+        }
+
+        if (type == BulletType.Green)
+        {
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.green * 4f);
+        }
+
+        if (type == BulletType.Yellow)
+        {
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.yellow * 4f);
+        }
     }
 }

@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerColor
+{
+    None,
+    Red,
+    Blue,
+    Green,
+    Yellow
+}
+
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private CharacterController m_characterController;
@@ -14,9 +23,11 @@ public class PlayerController : MonoBehaviour
     private const float GRAVITY = -70f;
     private bool m_isShooting;
     private bool m_canMove;
+    private PlayerColor m_currentColor = PlayerColor.None;
 
     private Vector3 playerVelocity;
     private bool isGrounded;
+    private 
 
     void Start()
     {
@@ -98,19 +109,54 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "bullet")
-        {
-            Destroy(collision.gameObject);  
-            cameraShake.shakeDuration = 0.1f;
-        }
-    }
-
-
     public void setCanMove(bool canMove)
     {
         m_canMove = canMove;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        m_characterController.enabled = false;
+        if (collision.gameObject.tag == "portal1")
+        {
+            m_currentColor = PlayerColor.Red;
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+            var PortalTransform = GameObject.FindWithTag("portal2").transform;
+            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
+        }
+
+        if (collision.gameObject.tag == "portal2")
+        {
+            m_currentColor = PlayerColor.Green;
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+            var PortalTransform = GameObject.FindWithTag("portal1").transform;
+            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
+        }
+
+        if (collision.gameObject.tag == "portal3")
+        {
+            m_currentColor = PlayerColor.Blue;
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
+            var PortalTransform = GameObject.FindWithTag("portal4").transform;
+            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
+        }
+
+        if (collision.gameObject.tag == "portal4")
+        {
+            m_currentColor = PlayerColor.Yellow;
+            gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
+            var PortalTransform = GameObject.FindWithTag("portal3").transform;
+            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
+        }
+
+        if (collision.gameObject.tag == "bullet")
+        {
+            Destroy(collision.gameObject);
+            cameraShake.shakeDuration = 0.1f;
+        }
+
+        m_characterController.enabled = true;
+
     }
 
     private IEnumerator SpawnBulletAfterDelay()
@@ -119,7 +165,7 @@ public class PlayerController : MonoBehaviour
 
 
         var bullet = Instantiate(m_bullet, transform.position + transform.forward * 2f, transform.rotation);
-        bullet.GetComponent<Bullet>().Fire(transform.forward);
+        bullet.GetComponent<Bullet>().Fire(transform.forward, (BulletType)m_currentColor);
         yield return new WaitForSeconds(GameManager.Instance.Config.ShootDelay);
         m_isShooting = false;
     }
