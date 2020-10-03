@@ -129,9 +129,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_characterController: {fileID: 554170220}
-  m_speed: 8.28
   m_bullet: {fileID: 1832209018948905758, guid: 046cf1ecef4306543a380655741d55ab,
     type: 3}
+  m_jumpHeight: 3
+  cameraShake: {fileID: 0}
 --- !u!114 &2010481891194963152
 MonoBehaviour:
   m_ObjectHideFlags: 0
