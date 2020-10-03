@@ -13,12 +13,26 @@ public enum PlayerColor
 
 public class PlayerController : MonoBehaviour
 {
+    enum HealthBarPosition {
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight
+    };
+
     [SerializeField] private CharacterController m_characterController;
     [SerializeField] private GameObject m_bullet;
     [SerializeField] private float m_jumpHeight = 3f;
     [SerializeField] private bool m_isSecondPlayer;
 
     [SerializeField] private CameraShake cameraShake;
+
+    [SerializeField] private Color m_color = Color.red;
+    [SerializeField] private Texture m_healthIcon;
+    [SerializeField] private bool m_horizontalHealthBar = true;
+    [SerializeField] private HealthBarPosition m_healthBarPosition;
+
+    [SerializeField] private int m_health;
 
     private const float GRAVITY = -70f;
     private bool m_isShooting;
@@ -168,5 +182,65 @@ public class PlayerController : MonoBehaviour
         bullet.GetComponent<Bullet>().Fire(transform.forward, (BulletType)m_currentColor);
         yield return new WaitForSeconds(GameManager.Instance.Config.ShootDelay);
         m_isShooting = false;
+    }
+    void OnGUI()
+    {
+        if (m_healthIcon) {
+            Vector2 healthBarDirection = new Vector2();
+            Vector2 healthPosition = new Vector2();
+            switch (m_healthBarPosition) {
+                case HealthBarPosition.TopLeft:
+                    healthPosition = new Vector2(10, 10);
+                    if (m_horizontalHealthBar)
+                    {
+                        healthBarDirection = new Vector2(1, 0);
+                    }
+                    else {
+                        healthBarDirection = new Vector2(0, 1);
+                    }
+                    break;
+                case HealthBarPosition.TopRight:
+                    healthPosition = new Vector2(Screen.width - 10 - m_healthIcon.width, 10);
+                    if (m_horizontalHealthBar)
+                    {
+                        healthBarDirection = new Vector2(-1, 0);
+                    }
+                    else
+                    {
+                        healthBarDirection = new Vector2(0, 1);
+                    }
+                    break;
+                case HealthBarPosition.BottomLeft:
+                    healthPosition = new Vector2(10, Screen.height - 10 - m_healthIcon.height);
+                    if (m_horizontalHealthBar)
+                    {
+                        healthBarDirection = new Vector2(1, 0);
+                    }
+                    else
+                    {
+                        healthBarDirection = new Vector2(0, -1);
+                    }
+                    break;
+                case HealthBarPosition.BottomRight:
+                    healthPosition = new Vector2(Screen.width - 10 - m_healthIcon.width, Screen.height - 10 - m_healthIcon.height);
+                    if (m_horizontalHealthBar)
+                    {
+                        healthBarDirection = new Vector2(-1, 0);
+                    }
+                    else
+                    {
+                        healthBarDirection = new Vector2(0, -1);
+                    }
+                    break;
+            }
+
+            Vector2 hpIconPos = healthPosition;
+            for (int i = 0; i < m_health; i++) {
+                Vector2 iconSize = new Vector2(m_healthIcon.width, m_healthIcon.height);
+                GUI.DrawTexture(new Rect(hpIconPos.x, hpIconPos.y, m_healthIcon.width, m_healthIcon.height), m_healthIcon, ScaleMode.ScaleToFit, true, 0, m_color, 0, 0);
+
+                hpIconPos += healthBarDirection * iconSize * 0.6f /*+ 5 * healthBarDirection*/;
+            }
+        }
     }
 }
