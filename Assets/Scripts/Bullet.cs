@@ -32,12 +32,16 @@ public class Bullet : MonoBehaviour
         {
             transform.position = GameObject.FindWithTag("portal2").transform.position + offsetVecForward;
             gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.red* 4f);
+
         }
 
         if (collision.gameObject.tag == "portal2")
         {
             transform.position = GameObject.FindWithTag("portal1").transform.position - offsetVecForward;
             gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.green * 4f);
+
 
         }
 
@@ -45,6 +49,8 @@ public class Bullet : MonoBehaviour
         {
             transform.position = GameObject.FindWithTag("portal4").transform.position + offsetVecSide;
             gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.blue * 4f);
+
 
         }
 
@@ -52,6 +58,8 @@ public class Bullet : MonoBehaviour
         {
             transform.position = GameObject.FindWithTag("portal3").transform.position - offsetVecSide;
             gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.yellow * 4f);
+
 
         }
     }
