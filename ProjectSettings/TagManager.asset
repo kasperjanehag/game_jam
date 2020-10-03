@@ -9,6 +9,7 @@ TagManager:
   - portal2
   - portal3
   - portal4
+  - GroundPlane
   layers:
   - Default
   - TransparentFX
