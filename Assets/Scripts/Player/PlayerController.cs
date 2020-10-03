@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private CharacterController m_characterController;
     [SerializeField] private GameObject m_bullet;
     [SerializeField] private float m_jumpHeight = 3f;
+    [SerializeField] private bool m_isSecondPlayer;
 
     private const float GRAVITY = -70f;
     private bool m_isShooting;
@@ -25,46 +26,74 @@ public class PlayerController : MonoBehaviour
     {
         if(!m_canMove) return;
 
-
         isGrounded = m_characterController.isGrounded;
         if (isGrounded && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
         }
 
-        var moveX = Input.GetAxis("Horizontal");
-        var moveY = Input.GetAxis("Vertical");
+        if (m_isSecondPlayer)
+        {
+            MoveSecondPlayer();
+        }
+        else
+        {
+            MoveFirstPlayer();
+        }
+
+        playerVelocity.y += GRAVITY * Time.deltaTime;
+        m_characterController.Move(playerVelocity * Time.deltaTime);
+    }
+
+    public void MoveFirstPlayer()
+    {
+        var moveX = Input.GetAxis("HorizontalP1");
+        var moveY = Input.GetAxis("VerticalP1");
 
         Vector3 move = new Vector3(moveX, 0, moveY);
         var moveValue = move * Time.deltaTime * GameManager.Instance.Config.PlayerSpeed;
         m_characterController.Move(moveValue);
 
-        if (move != Vector3.zero)
+        float _angle = Mathf.Atan2(Input.GetAxis("Roll"), Input.GetAxis("Pitch")) * Mathf.Rad2Deg;
+        if (new Vector2(Input.GetAxis("Roll"), Input.GetAxis("Pitch")) != Vector2.zero)
         {
-            gameObject.transform.forward = move;
+            var _rot = Quaternion.AngleAxis(_angle, new Vector3(0, 1, 0));
+            transform.rotation = Quaternion.Lerp(transform.rotation, _rot, 20 * Time.deltaTime);
         }
 
-        Vector3 lookTarget = new Vector3();
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var input = new Vector3(moveX, 0, moveY);
 
-        RaycastHit[] hits = Physics.RaycastAll(ray);
-        foreach (var hit in hits)
+        if (!m_isShooting && Input.GetButtonDown("XboxRBPlayer1"))
         {
-            if (hit.transform.tag == "GroundPlane")
-            {
-                Debug.DrawLine(transform.position, hit.point);
-                transform.LookAt(new Vector3(hit.point.x, transform.position.y, hit.point.z));
-            }
-        }
-
-        if (Input.GetMouseButton(0) && !m_isShooting)
-        {
+            Debug.Log("Player 1 fire!!!");
             m_isShooting = true;
             StartCoroutine(SpawnBulletAfterDelay());
         }
+    }
 
-        playerVelocity.y += GRAVITY * Time.deltaTime;
-        m_characterController.Move(playerVelocity * Time.deltaTime);
+    private void MoveSecondPlayer()
+    {
+        var moveX = Input.GetAxis("HorizontalP2");
+        var moveY = Input.GetAxis("VerticalP2");
+
+        Vector3 move = new Vector3(moveX, 0, moveY);
+        var moveValue = move * Time.deltaTime * GameManager.Instance.Config.PlayerSpeed;
+        m_characterController.Move(moveValue);
+
+        float _angle = Mathf.Atan2(Input.GetAxis("RollP2"), Input.GetAxis("PitchP2")) * Mathf.Rad2Deg;
+        if (new Vector2(Input.GetAxis("RollP2"), Input.GetAxis("PitchP2")) != Vector2.zero)
+        {
+            var _rot = Quaternion.AngleAxis(_angle, new Vector3(0, 1, 0));
+            transform.rotation = Quaternion.Lerp(transform.rotation, _rot, 20 * Time.deltaTime);
+        }
+
+        var input = new Vector3(moveX, 0, moveY);
+        if (!m_isShooting && Input.GetButtonDown("XboxRBPlayer2"))
+        {
+            Debug.Log("Player 2 fire!!!");
+            m_isShooting = true;
+            StartCoroutine(SpawnBulletAfterDelay());
+        }
     }
 
     public void setCanMove(bool canMove)
@@ -74,6 +103,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator SpawnBulletAfterDelay()
     {
+        Debug.Log("spawning bullet!!!");
+
+
         var bullet = Instantiate(m_bullet, transform.position + transform.forward * 2f, transform.rotation);
         bullet.GetComponent<Bullet>().Fire(transform.forward);
         yield return new WaitForSeconds(GameManager.Instance.Config.ShootDelay);
