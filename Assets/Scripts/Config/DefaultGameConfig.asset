@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aaa9374bf803174db9b253c6c4fbd48, type: 3}
   m_Name: DefaultGameConfig
   m_EditorClassIdentifier: 
-  PlayerSpeed: 8.93
+  PlayerSpeed: 10
   PlayerGravity: -9
   ShootDelay: 0.1
   BulletSpeed: 10

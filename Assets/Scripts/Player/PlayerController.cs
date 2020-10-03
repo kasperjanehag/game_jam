@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject m_bullet;
     [SerializeField] private float m_jumpHeight = 3f;
 
+    private const float GRAVITY = -70f;
     private bool m_isShooting;
     private bool m_canMove;
 
@@ -23,14 +24,16 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if(!m_canMove) return;
-        var moveX = Input.GetAxis("Horizontal");
-        var moveY = Input.GetAxis("Vertical");
+
 
         isGrounded = m_characterController.isGrounded;
         if (isGrounded && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
         }
+
+        var moveX = Input.GetAxis("Horizontal");
+        var moveY = Input.GetAxis("Vertical");
 
         Vector3 move = new Vector3(moveX, 0, moveY);
         var moveValue = move * Time.deltaTime * GameManager.Instance.Config.PlayerSpeed;
@@ -60,7 +63,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(SpawnBulletAfterDelay());
         }
 
-        playerVelocity.y += GameManager.Instance.Config.PlayerGravity * Time.deltaTime;
+        playerVelocity.y += GRAVITY * Time.deltaTime;
         m_characterController.Move(playerVelocity * Time.deltaTime);
     }
 
