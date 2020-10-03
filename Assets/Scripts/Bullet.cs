@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     private Vector3 m_direction;
     Color colour;
 
-    float damagePoints = GameManager.Instance.Config.BulletDamage;
+    float damagePoints;
 
     private const float BULLET_SPEED = 8f;
     private Vector3 offsetVecForward = new Vector3(0.0f, 0.0f, 0.5f);
@@ -15,6 +15,7 @@ public class Bullet : MonoBehaviour
 
     void Start()
     {
+        damagePoints = GameManager.Instance.Config.BulletDamage;
     }
     public void Fire(Vector3 direction)
     {
