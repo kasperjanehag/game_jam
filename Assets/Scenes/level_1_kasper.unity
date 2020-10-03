@@ -637,6 +637,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Environment
       objectReference: {fileID: 0}
+    - target: {fileID: 4624285409374378517, guid: 7e772fda88a78044bbb227c0453ea0c5,
+        type: 3}
+      propertyPath: m_TagString
+      value: GroundPlane
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e772fda88a78044bbb227c0453ea0c5, type: 3}
 --- !u!1001 &1848157062
