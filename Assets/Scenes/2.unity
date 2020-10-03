@@ -294,6 +294,11 @@ PrefabInstance:
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 554170224}
+    - target: {fileID: 6489987595988214840, guid: 4340a1f7f05ebef43aefcc4f37643e75,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 554170221}
     - target: {fileID: 6489987595988214841, guid: 4340a1f7f05ebef43aefcc4f37643e75,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -430,6 +435,19 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &554170221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554170218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e1572d57a8d948e6aaf16a88e62e857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHP: 100
 --- !u!4 &554170224 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2831986204767203105, guid: e62ab16655d1ef449b0f5595f4c6bdf8,
@@ -1026,6 +1044,11 @@ PrefabInstance:
     - target: {fileID: 4154864214800596328, guid: e62ab16655d1ef449b0f5595f4c6bdf8,
         type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154864214800596328, guid: e62ab16655d1ef449b0f5595f4c6bdf8,
+        type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5974536819237122382, guid: e62ab16655d1ef449b0f5595f4c6bdf8,

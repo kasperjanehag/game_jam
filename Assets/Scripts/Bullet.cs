@@ -6,6 +6,8 @@ public class Bullet : MonoBehaviour
 {
     private Vector3 m_direction;
 
+    float damagePoints = 50;
+
     private const float BULLET_SPEED = 8f;
     private Vector3 offsetVecForward = new Vector3(0.0f, 0.0f, 0.5f);
     private Vector3 offsetVecSide = new Vector3(0.5f, 0.0f, 0.0f);
@@ -43,8 +45,19 @@ public class Bullet : MonoBehaviour
         {
             transform.position = GameObject.FindWithTag("portal3").transform.position - offsetVecSide;
         }
-    }
+        if (collision.gameObject.tag == "enemy")
+        {
 
+            Destroy(gameObject);
+            IEntity npc = collision.gameObject.transform.GetComponent<IEntity>();
+            if (npc != null)
+            {
+                //Apply damage to NPC
+                npc.ApplyDamage(damagePoints);
+            }
+        }
+        
+    }
 
         private void Update()
     {

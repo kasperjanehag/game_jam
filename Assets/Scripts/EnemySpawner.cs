@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    public Transform playerTransform;
+    public DamageReceiver player;
     public float spawnInterval = 2; //Spawn new enemy each n seconds
     public int enemiesPerWave = 5; //How many enemies per wave
     public Transform[] spawnPoints;
@@ -24,12 +24,8 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Lock cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
         //Wait 10 seconds for new wave to start
-        newWaveTimer = 10;
+        newWaveTimer = 2;
         waitingForWave = true;       
     }
 
@@ -64,13 +60,20 @@ public class EnemySpawner : MonoBehaviour
 
                     GameObject enemy = Instantiate(enemyPrefab, randomPoint.position, Quaternion.identity);
                     Enemy npc = enemy.GetComponent<Enemy>();
-                    npc.playerTransform = playerTransform;
+                    npc.playerTransform = player.transform;
                     npc.es = this;
                     totalEnemiesSpawned++;
                 }
             }
         }
     }
+
+
+    void OnGUI() {
+        GUI.Box(new Rect(10, Screen.height - 35, 100, 25), ((int)player.playerHP).ToString() + " HP");
+
+    }
+
 
     public void EnemyEliminated(Enemy enemy)
     {
