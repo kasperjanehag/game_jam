@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject m_bullet;
     [SerializeField] private float m_jumpHeight = 3f;
 
+    [SerializeField] private CameraShake cameraShake;
+
     private const float GRAVITY = -70f;
     private bool m_isShooting;
     private bool m_canMove;
@@ -66,6 +68,16 @@ public class PlayerController : MonoBehaviour
         playerVelocity.y += GRAVITY * Time.deltaTime;
         m_characterController.Move(playerVelocity * Time.deltaTime);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "bullet")
+        {
+            Destroy(collision.gameObject);  
+            cameraShake.shakeDuration = 0.1f;
+        }
+    }
+
 
     public void setCanMove(bool canMove)
     {
