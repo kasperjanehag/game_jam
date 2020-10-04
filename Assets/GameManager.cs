@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text m_gameOverText;
     [SerializeField] private GameConfig m_gameConfig;
 
+    private bool m_canContinue = false;
     void Awake()
     {
         Instance = this;
@@ -20,12 +21,19 @@ public class GameManager : MonoBehaviour
 
     public void SetGameOver()
     {
+        StartCoroutine(SetCanContinueAfterDelay());
         m_gameOverText.gameObject.SetActive(true);
+    }
+
+    private IEnumerator SetCanContinueAfterDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        m_canContinue = true;
     }
 
     public void Update()
     {
-        if (m_gameOverText.gameObject.activeSelf && (Input.GetButton("XboxRBPlayer1") || Input.GetButton("XboxRBPlayer2")))
+        if (m_canContinue && (Input.GetButton("XboxRBPlayer1") || Input.GetButton("XboxRBPlayer2")))
         {
             SceneManager.LoadScene("NovaTestScene");
         }
