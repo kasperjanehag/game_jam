@@ -13,10 +13,14 @@ public class GameConfig : ScriptableObject
 
     [Header("Shooting")]
     public float ShootDelay = 0.5f;
+    public float ReloadDelay = 3f;
     public float BulletSpeed = 10f;
     public float BulletDeathTime = 2f;
     public float BulletDamage = 50f;
     public int BulletBounceDestroy = 5;
+
+    public int MaxBulletInMag = 5;
+    
 
     [Header("Enemy")]
     public float WaveInterval = 2f;
