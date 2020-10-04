@@ -8056,12 +8056,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4928161121341101265}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1edce7dc98545804bb1506a03070267b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_rotationSpeed: -12
 --- !u!1 &4928161121717421850
 GameObject:
   m_ObjectHideFlags: 0
@@ -14464,6 +14463,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7258684939336892706, guid: b8cebc149f603489880a2dd9a554473e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8cebc149f603489880a2dd9a554473e, type: 3}
