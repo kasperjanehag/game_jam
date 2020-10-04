@@ -26,17 +26,16 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private CharacterController m_characterController;
     [SerializeField] private GameObject m_bullet;
-    [SerializeField] private float m_jumpHeight = 3f;
     [SerializeField] private bool m_isSecondPlayer;
-
     [SerializeField] private CameraShake cameraShake;
 
-    [SerializeField] private Color m_color = Color.red;
+    [SerializeField] private Color m_color = Color.white;
     [SerializeField] private Texture m_healthIcon;
     [SerializeField] private bool m_horizontalHealthBar = true;
     [SerializeField] private HealthBarPosition m_healthBarPosition;
 
     [SerializeField] private int m_health;
+    [SerializeField] private int m_bulletInMag = 3;
     [SerializeField] public TeamColor m_teamColor;
 
     private const float GRAVITY = -70f;
@@ -49,6 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.visible = true;
         m_canMove = true;
+        StartCoroutine(ReloadBulletAfterDelay());
     }
 
     void Update()
@@ -231,10 +231,22 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator SpawnBulletAfterDelay()
     {
-        var bullet = Instantiate(m_bullet, transform.position + transform.forward * 2f, transform.rotation);
-        bullet.GetComponent<Bullet>().Fire(transform.forward, m_teamColor);
-        yield return new WaitForSeconds(GameManager.Instance.Config.ShootDelay);
+        if (m_bulletInMag >= 1) {
+            var bullet = Instantiate(m_bullet, transform.position + transform.forward * 2f, transform.rotation);
+            bullet.GetComponent<Bullet>().Fire(transform.forward, m_teamColor);
+            m_bulletInMag -= 1;
+            yield return new WaitForSeconds(GameManager.Instance.Config.ShootDelay);
+            
+        } 
         m_isShooting = false;
+    }
+
+    private IEnumerator ReloadBulletAfterDelay()
+    {
+        while(true){
+            m_bulletInMag = Math.Min(m_bulletInMag + 1,GameManager.Instance.Config.MaxBulletInMag);
+            yield return new WaitForSeconds(GameManager.Instance.Config.ReloadDelay);
+        }
     }
     void OnGUI()
     {
