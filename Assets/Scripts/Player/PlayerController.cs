@@ -40,6 +40,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int m_bulletInMag = 3;
     [SerializeField] public TeamColor m_teamColor;
 
+    [SerializeField] public KeyCode Forward;
+    [SerializeField] public KeyCode Backward;
+    [SerializeField] public KeyCode RotateLeft;
+    [SerializeField] public KeyCode RotateRight;
+    [SerializeField] public KeyCode Shoot;
+
     private const float GRAVITY = -70f;
     private bool m_isShooting;
     
@@ -68,7 +74,7 @@ public class PlayerController : MonoBehaviour
         
         // if (!m_isSecondPlayer)
         // {
-        //     ManageKeyboardInput();
+            ManageKeyboardInput();
         // }
 
         playerVelocity.y += GRAVITY * Time.deltaTime;
@@ -89,31 +95,57 @@ public class PlayerController : MonoBehaviour
 
     private void ManageKeyboardInput()
     {
-        var moveX = Input.GetAxis("Horizontal");
-        var moveY = Input.GetAxis("Vertical");
-
-        Vector3 move = new Vector3(moveX, 0, moveY);
-        var moveValue = move * Time.deltaTime * GameManager.Instance.Config.PlayerSpeed;
-        m_characterController.Move(moveValue);
-
-        // Vector3 lookTarget = new Vector3();
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        RaycastHit[] hits = Physics.RaycastAll(ray);
-        foreach (var hit in hits)
+        var moveValue = new Vector3(0,0,0);
+        if (Input.GetKey(Forward))
         {
-            if (hit.transform.tag == "GroundPlane")
-            {
-                Debug.DrawLine(transform.position, hit.point);
-                transform.LookAt(new Vector3(hit.point.x, transform.position.y, hit.point.z));
-            }
+            moveValue = transform.forward * GameManager.Instance.Config.PlayerSpeed * Time.deltaTime;
         }
+        if (Input.GetKey(Backward))
+        {
+            moveValue = -transform.forward * GameManager.Instance.Config.PlayerSpeed * Time.deltaTime;
+        }
+        if (Input.GetKey(RotateRight))
+        {
+            transform.Rotate(Vector3.up * 400f * Time.deltaTime);
+        }
+        if (Input.GetKey(RotateLeft))
+        {
+            transform.Rotate(-Vector3.up * 400f * Time.deltaTime);
+        }
+        if (Input.GetKeyDown(Shoot) && !m_isShooting)
+        {
+            m_isShooting = true;
+            StartCoroutine(SpawnBulletAfterDelay());
+        }
+        
+
+        m_characterController.Move(moveValue);
+        // var moveX = Input.GetAxis("Horizontal");
+        // var moveY = Input.GetAxis("Vertical");
+
+        // Vector3 move = new Vector3(moveX, 0, moveY);
+        // var moveValue = move * Time.deltaTime * GameManager.Instance.Config.PlayerSpeed;
+
+        // var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        // RaycastHit[] hits = Physics.RaycastAll(ray);
+        // foreach (var hit in hits)
+        // {
+        //     if (hit.transform.tag == "GroundPlane")
+        //     {
+        //         Debug.DrawLine(transform.position, hit.point);
+        //         transform.LookAt(new Vector3(hit.point.x, transform.position.y, hit.point.z));
+        //     }
+        // }
 
         if (Input.GetMouseButton(0) && !m_isShooting)
         {
             m_isShooting = true;
             StartCoroutine(SpawnBulletAfterDelay());
         }
+        
+        
+
     }
 
     private void MoveFirstPlayer()
