@@ -94,7 +94,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.5000001
+  m_Radius: 1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -126,6 +126,7 @@ MonoBehaviour:
   m_horizontalHealthBar: 1
   m_healthBarPosition: 1
   m_health: 5
+  m_teamColor: 1
 --- !u!1 &7948248155332415939
 GameObject:
   m_ObjectHideFlags: 0
