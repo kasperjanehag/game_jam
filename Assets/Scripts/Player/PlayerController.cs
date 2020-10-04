@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour
         BottomRight
     };
 
+    [SerializeField] private GameObject m_gun;
+    [SerializeField] private Material m_redMaterial;
+    [SerializeField] private Material m_blueMaterial;
+
     [SerializeField] private CharacterController m_characterController;
     [SerializeField] private GameObject m_bullet;
     [SerializeField] private float m_jumpHeight = 3f;
@@ -74,7 +78,7 @@ public class PlayerController : MonoBehaviour
         m_characterController.Move(playerVelocity * Time.deltaTime);
     }
 
-    public void MoveFirstPlayer()
+    private void MoveFirstPlayer()
     {
         var moveX = Input.GetAxis("HorizontalP1");
         var moveY = Input.GetAxis("VerticalP1");
@@ -92,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
         var input = new Vector3(moveX, 0, moveY);
 
-        if (!m_isShooting && Input.GetButtonDown("XboxRBPlayer1"))
+        if (!m_isShooting && Input.GetButton("XboxRBPlayer1"))
         {
             Debug.Log("Player 1 fire!!!");
             m_isShooting = true;
@@ -132,70 +136,68 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "bullet")
+        if (collision.gameObject.tag == "bullet" && (int)collision.gameObject.GetComponent<Bullet>().CurrentBulletType != (int)m_currentColor )
         {
             Destroy(collision.gameObject);
             cameraShake.shakeDuration = 0.1f;
+            m_health -= 1;
+
+            if (m_health == 0)
+            {
+                m_canMove = false;
+            }
         }
     }
-
-
-
-    void OnControllerColliderHit(ControllerColliderHit collision)
-    {
-
-        if (collision.gameObject.tag == "portal1")
-        {
-            m_characterController.enabled = false;
-            m_currentColor = PlayerColor.Red;
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
-            var PortalTransform = GameObject.FindWithTag("portal2").transform;
-            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
-            m_characterController.enabled = true;
-        }
-
-        if (collision.gameObject.tag == "portal2")
-        {
-            m_characterController.enabled = false;
-            m_currentColor = PlayerColor.Green;
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
-            var PortalTransform = GameObject.FindWithTag("portal1").transform;
-            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
-            m_characterController.enabled = true;
-
-        }
-
-        if (collision.gameObject.tag == "portal3")
-        {
-            m_characterController.enabled = false;
-            m_currentColor = PlayerColor.Blue;
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
-            var PortalTransform = GameObject.FindWithTag("portal4").transform;
-            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
-            m_characterController.enabled = true;
-
-        }
-
-        if (collision.gameObject.tag == "portal4")
-        {
-            m_characterController.enabled = false;
-            m_currentColor = PlayerColor.Yellow;
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
-            var PortalTransform = GameObject.FindWithTag("portal3").transform;
-            m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
-            m_characterController.enabled = true;
-        }
-
-
-
-
-
-    }
+    //
+    // void OnControllerColliderHit(ControllerColliderHit collision)
+    // {
+    //     if (collision.gameObject.tag == "portal1")
+    //     {
+    //         m_characterController.enabled = false;
+    //         m_currentColor = PlayerColor.Red;
+    //         m_gun.GetComponent<MeshRenderer>().material = m_redMaterial;
+    //
+    //         var PortalTransform = GameObject.FindWithTag("portal2").transform;
+    //         m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
+    //         m_characterController.enabled = true;
+    //     }
+    //
+    //     if (collision.gameObject.tag == "portal2")
+    //     {
+    //         m_characterController.enabled = false;
+    //         m_currentColor = PlayerColor.Red;
+    //         m_gun.GetComponent<MeshRenderer>().material = m_redMaterial;
+    //         var PortalTransform = GameObject.FindWithTag("portal1").transform;
+    //         m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
+    //         m_characterController.enabled = true;
+    //
+    //     }
+    //
+    //     if (collision.gameObject.tag == "portal3")
+    //     {
+    //         m_characterController.enabled = false;
+    //         m_currentColor = PlayerColor.Blue;
+    //         m_gun.GetComponent<MeshRenderer>().material = m_blueMaterial;
+    //         var PortalTransform = GameObject.FindWithTag("portal4").transform;
+    //         m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
+    //         m_characterController.enabled = true;
+    //
+    //     }
+    //
+    //     if (collision.gameObject.tag == "portal4")
+    //     {
+    //         m_characterController.enabled = false;
+    //         m_currentColor = PlayerColor.Blue;
+    //         m_gun.GetComponent<MeshRenderer>().material = m_blueMaterial;
+    //         var PortalTransform = GameObject.FindWithTag("portal3").transform;
+    //         m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
+    //         m_characterController.enabled = true;
+    //     }
+    // }
 
     private IEnumerator SpawnBulletAfterDelay()
     {
         Debug.Log("spawning bullet!!!");
-
 
         var bullet = Instantiate(m_bullet, transform.position + transform.forward * 2f, transform.rotation);
         bullet.GetComponent<Bullet>().Fire(transform.forward, (BulletType)m_currentColor);

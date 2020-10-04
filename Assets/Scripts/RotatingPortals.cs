@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RotatingPortals : MonoBehaviour
 {
-    void FixedUpdate ()
+    void Update ()
     {
         transform.Rotate (0,GameManager.Instance.Config.portalRotationSpeed*Time.deltaTime,0); //rotates 50 degrees per second around z axis
     }

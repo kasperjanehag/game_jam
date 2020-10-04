@@ -27,6 +27,9 @@ public class Bullet : MonoBehaviour
     private Vector3 offsetVecForward = new Vector3(0.0f, 0.0f, 0.5f);
     private Vector3 offsetVecSide = new Vector3(0.5f, 0.0f, 0.0f);
 
+    [SerializeField] private Material m_redMaterial;
+    [SerializeField] private Material m_blueMaterial;
+
     void Start()
     {
         damagePoints = GameManager.Instance.Config.BulletDamage;
@@ -52,29 +55,29 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.tag == "portal1")
         {
-            transform.position = GameObject.FindWithTag("portal2").transform.position + offsetVecForward;
+            transform.position = GameObject.FindWithTag("portal2").transform.position + GameObject.FindWithTag("portal2").transform.forward;
             m_currentType = BulletType.Red;
             SetColor(m_currentType);
         }
 
         if (collision.gameObject.tag == "portal2")
         {
-            transform.position = GameObject.FindWithTag("portal1").transform.position - offsetVecForward;
-            m_currentType = BulletType.Green;
+            transform.position = GameObject.FindWithTag("portal1").transform.position + GameObject.FindWithTag("portal1").transform.forward;
+            m_currentType = BulletType.Red;
             SetColor(m_currentType);
         }
 
         if (collision.gameObject.tag == "portal3")
         {
-            transform.position = GameObject.FindWithTag("portal4").transform.position + offsetVecSide;
+            transform.position = GameObject.FindWithTag("portal4").transform.position + GameObject.FindWithTag("portal4").transform.forward;
             m_currentType = BulletType.Blue;
             SetColor(m_currentType);
         }
 
         if (collision.gameObject.tag == "portal4")
         {
-            transform.position = GameObject.FindWithTag("portal3").transform.position - offsetVecSide;
-            m_currentType = BulletType.Yellow;
+            transform.position = GameObject.FindWithTag("portal3").transform.position + GameObject.FindWithTag("portal3").transform.forward;
+            m_currentType = BulletType.Blue;
             SetColor(m_currentType);
         }
     }
@@ -88,26 +91,26 @@ public class Bullet : MonoBehaviour
     {
         if (type == BulletType.Red)
         {
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
-            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.red * 4f);
+            gameObject.GetComponent<MeshRenderer>().material = m_redMaterial;
+           // gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.red * 4f);
         }
 
         if (type == BulletType.Blue)
         {
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
-            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.blue * 4f);
+            gameObject.GetComponent<MeshRenderer>().material = m_blueMaterial;
+          //  gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.blue * 4f);
         }
-
-        if (type == BulletType.Green)
-        {
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.green;
-            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.green * 4f);
-        }
-
-        if (type == BulletType.Yellow)
-        {
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
-            gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.yellow * 4f);
-        }
+        //
+        // if (type == BulletType.Green)
+        // {
+        //     gameObject.GetComponent<MeshRenderer>().material = m_redMaterial;
+        //    // gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.green * 4f);
+        // }
+        //
+        // if (type == BulletType.Yellow)
+        // {
+        //     gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
+        //     //gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.yellow * 4f);
+        // }
     }
 }

@@ -12,10 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aaa9374bf803174db9b253c6c4fbd48, type: 3}
   m_Name: DefaultGameConfig
   m_EditorClassIdentifier: 
-  PlayerSpeed: 10
+  PlayerHealth: 3
+  PlayerSpeed: 5
   PlayerGravity: -9
-  ShootDelay: 0.1
+  ShootDelay: 0.5
   BulletSpeed: 10
   BulletDeathTime: 2
   BulletDamage: 50
   WaveInterval: 2
+  EnemiesPerWave: 62
+  AttackRange: 2
+  EnemySpeed: 1.43
+  portalRotationSpeed: 40
