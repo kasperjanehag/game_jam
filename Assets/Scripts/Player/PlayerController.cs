@@ -41,20 +41,20 @@ public class PlayerController : MonoBehaviour
 
     private const float GRAVITY = -70f;
     private bool m_isShooting;
-    private bool m_canMove;
+    
     private Vector3 playerVelocity;
     private bool isGrounded;
+    private bool isAlive = true;
 
     void Start()
     {
         Cursor.visible = true;
-        m_canMove = true;
         StartCoroutine(ReloadBulletAfterDelay());
     }
 
     void Update()
     {
-        if (!m_canMove) return;
+        if (!isAlive) return;
 
         isGrounded = m_characterController.isGrounded;
         if (isGrounded && playerVelocity.y < 0)
@@ -169,10 +169,6 @@ public class PlayerController : MonoBehaviour
         m_characterController.transform.position = newPos;
         m_characterController.enabled = true;
     }
-    public void setCanMove(bool canMove)
-    {
-        m_canMove = canMove;
-    }
 
     void OnCollisionEnter(Collision collision)
     {
@@ -185,7 +181,7 @@ public class PlayerController : MonoBehaviour
 
             if (m_health == 0)
             {
-                m_canMove = false;
+                isAlive = false;
             }
         }
     }
