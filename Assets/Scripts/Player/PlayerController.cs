@@ -4,13 +4,10 @@ using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-public enum PlayerColor
+public enum TeamColor
 {
-    None,
-    Red,
     Blue,
-    Green,
-    Yellow
+    Pink,
 }
 
 public class PlayerController : MonoBehaviour
@@ -39,12 +36,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private HealthBarPosition m_healthBarPosition;
 
     [SerializeField] private int m_health;
+    [SerializeField] private TeamColor m_teamColor;
 
     private const float GRAVITY = -70f;
     private bool m_isShooting;
     private bool m_canMove;
-    private PlayerColor m_currentColor = PlayerColor.None;
-
     private Vector3 playerVelocity;
     private bool isGrounded;
     private 
@@ -98,7 +94,6 @@ public class PlayerController : MonoBehaviour
 
         if (!m_isShooting && Input.GetButton("XboxRBPlayer1"))
         {
-            Debug.Log("Player 1 fire!!!");
             m_isShooting = true;
             StartCoroutine(SpawnBulletAfterDelay());
         }
@@ -123,7 +118,6 @@ public class PlayerController : MonoBehaviour
         var input = new Vector3(moveX, 0, moveY);
         if (!m_isShooting && Input.GetButtonDown("XboxRBPlayer2"))
         {
-            Debug.Log("Player 2 fire!!!");
             m_isShooting = true;
             StartCoroutine(SpawnBulletAfterDelay());
         }
@@ -136,10 +130,11 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "bullet" && (int)collision.gameObject.GetComponent<Bullet>().CurrentBulletType != (int)m_currentColor )
+
+        if (collision.gameObject.tag == "bullet" && collision.gameObject.GetComponent<Bullet>().m_teamColor != m_teamColor)
         {
             Destroy(collision.gameObject);
-            cameraShake.shakeDuration = 0.1f;
+            // cameraShake.shakeDuration = 0.1f;
             m_health -= 1;
 
             if (m_health == 0)
@@ -197,10 +192,8 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator SpawnBulletAfterDelay()
     {
-        Debug.Log("spawning bullet!!!");
-
         var bullet = Instantiate(m_bullet, transform.position + transform.forward * 2f, transform.rotation);
-        bullet.GetComponent<Bullet>().Fire(transform.forward, (BulletType)m_currentColor);
+        bullet.GetComponent<Bullet>().Fire(transform.forward, m_teamColor);
         yield return new WaitForSeconds(GameManager.Instance.Config.ShootDelay);
         m_isShooting = false;
     }
