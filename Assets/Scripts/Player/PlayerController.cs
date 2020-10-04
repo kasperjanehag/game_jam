@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private HealthBarPosition m_healthBarPosition;
 
     [SerializeField] private int m_health;
-    [SerializeField] private TeamColor m_teamColor;
+    [SerializeField] public TeamColor m_teamColor;
 
     private const float GRAVITY = -70f;
     private bool m_isShooting;
