@@ -87,6 +87,12 @@ public class PlayerController : MonoBehaviour
 
     private void ManageKeyboardInput()
     {
+        // if (Input.GetKey("up"))
+        // {
+        //     moveValue = Vector3.forward * GameManager.Instance.Config.PlayerSpeed * Time.deltaTime;
+
+        // }
+
         var moveX = Input.GetAxis("Horizontal");
         var moveY = Input.GetAxis("Vertical");
 
@@ -191,52 +197,6 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.SetGameOver();
         isAlive = false;
     }
-    //
-    // void OnControllerColliderHit(ControllerColliderHit collision)
-    // {
-    //     if (collision.gameObject.tag == "portal1")
-    //     {
-    //         m_characterController.enabled = false;
-    //         m_currentColor = PlayerColor.Red;
-    //         m_gun.GetComponent<MeshRenderer>().material = m_redMaterial;
-    //
-    //         var PortalTransform = GameObject.FindWithTag("portal2").transform;
-    //         m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
-    //         m_characterController.enabled = true;
-    //     }
-    //
-    //     if (collision.gameObject.tag == "portal2")
-    //     {
-    //         m_characterController.enabled = false;
-    //         m_currentColor = PlayerColor.Red;
-    //         m_gun.GetComponent<MeshRenderer>().material = m_redMaterial;
-    //         var PortalTransform = GameObject.FindWithTag("portal1").transform;
-    //         m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
-    //         m_characterController.enabled = true;
-    //
-    //     }
-    //
-    //     if (collision.gameObject.tag == "portal3")
-    //     {
-    //         m_characterController.enabled = false;
-    //         m_currentColor = PlayerColor.Blue;
-    //         m_gun.GetComponent<MeshRenderer>().material = m_blueMaterial;
-    //         var PortalTransform = GameObject.FindWithTag("portal4").transform;
-    //         m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
-    //         m_characterController.enabled = true;
-    //
-    //     }
-    //
-    //     if (collision.gameObject.tag == "portal4")
-    //     {
-    //         m_characterController.enabled = false;
-    //         m_currentColor = PlayerColor.Blue;
-    //         m_gun.GetComponent<MeshRenderer>().material = m_blueMaterial;
-    //         var PortalTransform = GameObject.FindWithTag("portal3").transform;
-    //         m_characterController.transform.position = PortalTransform.position + PortalTransform.forward;
-    //         m_characterController.enabled = true;
-    //     }
-    // }
 
     private IEnumerator SpawnBulletAfterDelay()
     {
