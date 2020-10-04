@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
         }
 
         ManageControllerInput();
-
+        
         if (!m_isSecondPlayer)
         {
             ManageKeyboardInput();
@@ -181,9 +181,15 @@ public class PlayerController : MonoBehaviour
 
             if (m_health == 0)
             {
-                isAlive = false;
+                GameOver();
             }
         }
+    }
+
+    private void GameOver()
+    {
+        GameManager.Instance.SetGameOver();
+        isAlive = false;
     }
     //
     // void OnControllerColliderHit(ControllerColliderHit collision)
