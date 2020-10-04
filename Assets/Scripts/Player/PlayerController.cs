@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private CharacterController m_characterController;
     [SerializeField] private GameObject m_bullet;
+    [SerializeField] private GameObject m_playerHitParticleSystem;
     [SerializeField] private bool m_isSecondPlayer;
     [SerializeField] private CameraShake cameraShake;
 
@@ -176,7 +177,10 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.tag == "bullet" && collision.gameObject.GetComponent<Bullet>().m_teamColor != m_teamColor)
         {
+            
             Destroy(collision.gameObject);
+            Instantiate(m_playerHitParticleSystem, transform.position, Quaternion.identity);
+            cameraShake.shakeDuration = 0.1f;
             cameraShake.shakeAmount = 0.7f;
             cameraShake.shakeDuration = 0.2f;
             m_health -= 1;
