@@ -61,7 +61,7 @@
                 m_sounds[i].SetSource(go.AddComponent<AudioSource>());
             }
 
-        //     PlaySound("GameLoop");
+        PlaySound("GameLoop");
         }
 
         public void PlaySound(string name)

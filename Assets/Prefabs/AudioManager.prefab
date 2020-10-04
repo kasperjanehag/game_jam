@@ -43,4 +43,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ea9f6ba4d908e44cb5fbf5aa3751ff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_sounds: []
+  m_sounds:
+  - Name: LaserShot
+    Clip: {fileID: 8300000, guid: 177df387b5bbc4744b5b179f7cec2a75, type: 3}
+    Volume: 0.48
+    Pitch: 0.74
+    RandomVolume: 0
+    RandomPitch: 0.144
+    IsLooping: 0
+  - Name: GameLoop
+    Clip: {fileID: 8300000, guid: c2d8ca3ba9e9ff0498bf377384cef114, type: 3}
+    Volume: 0.65
+    Pitch: 1
+    RandomVolume: 0
+    RandomPitch: 0
+    IsLooping: 1
