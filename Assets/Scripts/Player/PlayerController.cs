@@ -13,7 +13,8 @@ public enum TeamColor
 
 public class PlayerController : MonoBehaviour
 {
-    enum HealthBarPosition {
+    enum HealthBarPosition
+    {
         TopLeft,
         TopRight,
         BottomLeft,
@@ -53,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(!m_canMove) return;
+        if (!m_canMove) return;
 
         isGrounded = m_characterController.isGrounded;
         if (isGrounded && playerVelocity.y < 0)
@@ -94,7 +95,7 @@ public class PlayerController : MonoBehaviour
         m_characterController.Move(moveValue);
 
         Vector3 lookTarget = new Vector3();
-        var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit[] hits = Physics.RaycastAll(ray);
         foreach (var hit in hits)
@@ -162,6 +163,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void moveCharacterToPos(Vector3 newPos)
+    {
+        m_characterController.enabled = false;
+        m_characterController.transform.position = newPos;
+        m_characterController.enabled = true;
+    }
     public void setCanMove(bool canMove)
     {
         m_canMove = canMove;
@@ -238,17 +245,20 @@ public class PlayerController : MonoBehaviour
     }
     void OnGUI()
     {
-        if (m_healthIcon) {
+        if (m_healthIcon)
+        {
             Vector2 healthBarDirection = new Vector2();
             Vector2 healthPosition = new Vector2();
-            switch (m_healthBarPosition) {
+            switch (m_healthBarPosition)
+            {
                 case HealthBarPosition.TopLeft:
                     healthPosition = new Vector2(10, 10);
                     if (m_horizontalHealthBar)
                     {
                         healthBarDirection = new Vector2(1, 0);
                     }
-                    else {
+                    else
+                    {
                         healthBarDirection = new Vector2(0, 1);
                     }
                     break;
@@ -288,7 +298,8 @@ public class PlayerController : MonoBehaviour
             }
 
             Vector2 hpIconPos = healthPosition;
-            for (int i = 0; i < m_health; i++) {
+            for (int i = 0; i < m_health; i++)
+            {
                 Vector2 iconSize = new Vector2(m_healthIcon.width, m_healthIcon.height);
                 GUI.DrawTexture(new Rect(hpIconPos.x, hpIconPos.y, m_healthIcon.width, m_healthIcon.height), m_healthIcon, ScaleMode.ScaleToFit, true, 0, m_color, 0, 0);
 
