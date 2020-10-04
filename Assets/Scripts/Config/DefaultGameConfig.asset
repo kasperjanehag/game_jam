@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: DefaultGameConfig
   m_EditorClassIdentifier: 
   PlayerHealth: 3
-  PlayerSpeed: 9
+  PlayerSpeed: 7
   PlayerGravity: -9
-  ShootDelay: 0.5
-  BulletSpeed: 13.91
+  ShootDelay: 0.2
+  ReloadDelay: 2
+  BulletSpeed: 6
   BulletDeathTime: 2
   BulletDamage: 50
   BulletBounceDestroy: 5
+  MaxBulletInMag: 3
   WaveInterval: 2
   EnemiesPerWave: 62
   AttackRange: 2
   EnemySpeed: 1.43
-  portalRotationSpeed: 40
+  portalRotationSpeed: 25

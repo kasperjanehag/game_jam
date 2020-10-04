@@ -122,6 +122,8 @@ MonoBehaviour:
   m_characterController: {fileID: 554170220}
   m_bullet: {fileID: 1832209018948905758, guid: 046cf1ecef4306543a380655741d55ab,
     type: 3}
+  m_playerHitParticleSystem: {fileID: 100748, guid: 0d43a584d73834e4aa570e0e2c2a9804,
+    type: 3}
   m_isSecondPlayer: 1
   cameraShake: {fileID: 0}
   m_color: {r: 1, g: 0, b: 0.9160185, a: 1}

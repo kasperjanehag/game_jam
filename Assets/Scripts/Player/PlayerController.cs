@@ -210,6 +210,7 @@ public class PlayerController : MonoBehaviour
             cameraShake.shakeAmount = 0.1f;
             cameraShake.shakeDuration = 0.1f;
             bullet.GetComponent<Bullet>().Fire(transform.forward, m_teamColor);
+            AudioManager.Instance.PlaySound("LaserShot");
             m_bulletInMag -= 1;
             yield return new WaitForSeconds(GameManager.Instance.Config.ShootDelay);
             
