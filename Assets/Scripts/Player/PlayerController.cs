@@ -106,11 +106,11 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(RotateRight))
         {
-            transform.Rotate(Vector3.up * 300f * Time.deltaTime);
+            transform.Rotate(Vector3.up * 400f * Time.deltaTime);
         }
         if (Input.GetKey(RotateLeft))
         {
-            transform.Rotate(-Vector3.up * 300f * Time.deltaTime);
+            transform.Rotate(-Vector3.up * 400f * Time.deltaTime);
         }
         if (Input.GetKeyDown(Shoot) && !m_isShooting)
         {
@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
         }
         
 
-
+        m_characterController.Move(moveValue);
         // var moveX = Input.GetAxis("Horizontal");
         // var moveY = Input.GetAxis("Vertical");
 
@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(SpawnBulletAfterDelay());
         }
         
-        m_characterController.Move(moveValue);
+        
 
     }
 
