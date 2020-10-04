@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
         BottomRight
     };
 
-    [SerializeField] private GameObject m_gun;
+    [SerializeField] private GameObject[] m_arrows;
     [SerializeField] private Material m_redMaterial;
     [SerializeField] private Material m_blueMaterial;
 
@@ -177,7 +177,8 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "bullet" && collision.gameObject.GetComponent<Bullet>().m_teamColor != m_teamColor)
         {
             Destroy(collision.gameObject);
-            cameraShake.shakeDuration = 0.1f;
+            cameraShake.shakeAmount = 0.7f;
+            cameraShake.shakeDuration = 0.2f;
             m_health -= 1;
 
             if (m_health == 0)
@@ -195,8 +196,15 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator SpawnBulletAfterDelay()
     {
-        if (m_bulletInMag >= 1) {
+        if (m_bulletInMag >= 1)
+        {
+
+            Debug.Log("bullet inmag" + m_bulletInMag);
+            m_arrows[m_bulletInMag - 1].SetActive(false);
+
             var bullet = Instantiate(m_bullet, transform.position + transform.forward * 2f, transform.rotation);
+            cameraShake.shakeAmount = 0.1f;
+            cameraShake.shakeDuration = 0.1f;
             bullet.GetComponent<Bullet>().Fire(transform.forward, m_teamColor);
             m_bulletInMag -= 1;
             yield return new WaitForSeconds(GameManager.Instance.Config.ShootDelay);
@@ -209,6 +217,7 @@ public class PlayerController : MonoBehaviour
     {
         while(true){
             m_bulletInMag = Math.Min(m_bulletInMag + 1,GameManager.Instance.Config.MaxBulletInMag);
+            m_arrows[m_bulletInMag - 1].SetActive(true);
             yield return new WaitForSeconds(GameManager.Instance.Config.ReloadDelay);
         }
     }
