@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         Cursor.visible = true;
+        m_health = GameManager.Instance.Config.PlayerHealth;
         StartCoroutine(ReloadBulletAfterDelay());
     }
 
@@ -64,10 +65,10 @@ public class PlayerController : MonoBehaviour
 
         ManageControllerInput();
         
-        if (!m_isSecondPlayer)
-        {
-            ManageKeyboardInput();
-        }
+        // if (!m_isSecondPlayer)
+        // {
+        //     ManageKeyboardInput();
+        // }
 
         playerVelocity.y += GRAVITY * Time.deltaTime;
         m_characterController.Move(playerVelocity * Time.deltaTime);
@@ -100,7 +101,7 @@ public class PlayerController : MonoBehaviour
         var moveValue = move * Time.deltaTime * GameManager.Instance.Config.PlayerSpeed;
         m_characterController.Move(moveValue);
 
-        Vector3 lookTarget = new Vector3();
+        // Vector3 lookTarget = new Vector3();
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit[] hits = Physics.RaycastAll(ray);
@@ -182,7 +183,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "bullet" && collision.gameObject.GetComponent<Bullet>().m_teamColor != m_teamColor)
         {
             Destroy(collision.gameObject);
-            // cameraShake.shakeDuration = 0.1f;
+            cameraShake.shakeDuration = 0.1f;
             m_health -= 1;
 
             if (m_health == 0)
