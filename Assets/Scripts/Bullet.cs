@@ -29,10 +29,15 @@ public class Bullet : MonoBehaviour
 
     [SerializeField] private Material m_redMaterial;
     [SerializeField] private Material m_blueMaterial;
+    private int bounce_counter = 0;
+
+    private Rigidbody rb;
+    private Vector3 lastFrameVelocity;
 
     void Start()
     {
         damagePoints = GameManager.Instance.Config.BulletDamage;
+        rb = GetComponent<Rigidbody>();
     }
     
     private BulletType m_currentType = BulletType.None;
@@ -42,14 +47,8 @@ public class Bullet : MonoBehaviour
         m_direction = direction;
         m_currentType = bulletType;
         SetColor(m_currentType);
-        StartCoroutine(DestroyAfterDelay());
     }
 
-    private IEnumerator DestroyAfterDelay()
-    {
-        yield return new WaitForSeconds(GameManager.Instance.Config.BulletDeathTime);
-        Destroy(gameObject);
-    }
 
     void OnCollisionEnter(Collision collision)
     {
@@ -58,28 +57,45 @@ public class Bullet : MonoBehaviour
             transform.position = GameObject.FindWithTag("portal2").transform.position + GameObject.FindWithTag("portal2").transform.forward;
             m_currentType = BulletType.Red;
             SetColor(m_currentType);
+            return;
         }
-
-        if (collision.gameObject.tag == "portal2")
+        else if (collision.gameObject.tag == "portal2")
         {
             transform.position = GameObject.FindWithTag("portal1").transform.position + GameObject.FindWithTag("portal1").transform.forward;
             m_currentType = BulletType.Red;
             SetColor(m_currentType);
+            return;
         }
 
-        if (collision.gameObject.tag == "portal3")
+        else if (collision.gameObject.tag == "portal3")
         {
             transform.position = GameObject.FindWithTag("portal4").transform.position + GameObject.FindWithTag("portal4").transform.forward;
             m_currentType = BulletType.Blue;
             SetColor(m_currentType);
+            return;
         }
 
-        if (collision.gameObject.tag == "portal4")
+        else if (collision.gameObject.tag == "portal4")
         {
             transform.position = GameObject.FindWithTag("portal3").transform.position + GameObject.FindWithTag("portal3").transform.forward;
             m_currentType = BulletType.Blue;
             SetColor(m_currentType);
+            return;
         }
+        
+        Bounce(collision.contacts[0].normal);
+        
+    }
+
+    private void Bounce(Vector3 collisionNormal)
+    {
+        var direction = Vector3.Reflect(m_direction, collisionNormal);
+        m_direction = direction;
+        bounce_counter += 1;
+        if (bounce_counter == GameManager.Instance.Config.BulletBounceDestroy) {
+            Destroy(gameObject);
+        }
+        // rb.velocity = direction * -10000000*lastFrameVelocity.magnitude;
     }
 
         private void Update()
