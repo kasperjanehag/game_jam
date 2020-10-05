@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
     private const float GRAVITY = -70f;
     private bool m_isShooting;
-    
+
     private Vector3 playerVelocity;
     private bool isGrounded;
     private bool isAlive = true;
@@ -71,11 +71,11 @@ public class PlayerController : MonoBehaviour
         }
 
         ManageControllerInput();
-        
-        // if (!m_isSecondPlayer)
-        // {
+
+        if (!m_isSecondPlayer)
+        {
             ManageKeyboardInput();
-        // }
+        }
 
         playerVelocity.y += GRAVITY * Time.deltaTime;
         m_characterController.Move(playerVelocity * Time.deltaTime);
@@ -95,57 +95,56 @@ public class PlayerController : MonoBehaviour
 
     private void ManageKeyboardInput()
     {
-        var moveValue = new Vector3(0,0,0);
-        if (Input.GetKey(Forward))
+        // var moveValue = new Vector3(0,0,0);
+        // if (Input.GetKey(Forward))
+        // {
+        //     moveValue = transform.forward * GameManager.Instance.Config.PlayerSpeed * Time.deltaTime;
+        // }
+        // if (Input.GetKey(Backward))
+        // {
+        //     moveValue = -transform.forward * GameManager.Instance.Config.PlayerSpeed * Time.deltaTime;
+        // }
+        // if (Input.GetKey(RotateRight))
+        // {
+        //     transform.Rotate(Vector3.up * 400f * Time.deltaTime);
+        // }
+        // if (Input.GetKey(RotateLeft))
+        // {
+        //     transform.Rotate(-Vector3.up * 400f * Time.deltaTime);
+        // }
+        // if (Input.GetKeyDown(Shoot) && !m_isShooting)
+        // {
+        //     m_isShooting = true;
+        //     StartCoroutine(SpawnBulletAfterDelay());
+        // }
+
+
+
+        var moveX = Input.GetAxis("Horizontal");
+        var moveY = Input.GetAxis("Vertical");
+
+        Vector3 move = new Vector3(moveX, 0, moveY);
+        var moveValue = move * Time.deltaTime * GameManager.Instance.Config.PlayerSpeed;
+
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit[] hits = Physics.RaycastAll(ray);
+        foreach (var hit in hits)
         {
-            moveValue = transform.forward * GameManager.Instance.Config.PlayerSpeed * Time.deltaTime;
+            if (hit.transform.tag == "GroundPlane")
+            {
+                Debug.DrawLine(transform.position, hit.point);
+                transform.LookAt(new Vector3(hit.point.x, transform.position.y, hit.point.z));
+            }
         }
-        if (Input.GetKey(Backward))
-        {
-            moveValue = -transform.forward * GameManager.Instance.Config.PlayerSpeed * Time.deltaTime;
-        }
-        if (Input.GetKey(RotateRight))
-        {
-            transform.Rotate(Vector3.up * 400f * Time.deltaTime);
-        }
-        if (Input.GetKey(RotateLeft))
-        {
-            transform.Rotate(-Vector3.up * 400f * Time.deltaTime);
-        }
-        if (Input.GetKeyDown(Shoot) && !m_isShooting)
-        {
-            m_isShooting = true;
-            StartCoroutine(SpawnBulletAfterDelay());
-        }
-        
 
         m_characterController.Move(moveValue);
-        // var moveX = Input.GetAxis("Horizontal");
-        // var moveY = Input.GetAxis("Vertical");
-
-        // Vector3 move = new Vector3(moveX, 0, moveY);
-        // var moveValue = move * Time.deltaTime * GameManager.Instance.Config.PlayerSpeed;
-
-        // var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        // RaycastHit[] hits = Physics.RaycastAll(ray);
-        // foreach (var hit in hits)
-        // {
-        //     if (hit.transform.tag == "GroundPlane")
-        //     {
-        //         Debug.DrawLine(transform.position, hit.point);
-        //         transform.LookAt(new Vector3(hit.point.x, transform.position.y, hit.point.z));
-        //     }
-        // }
 
         if (Input.GetMouseButton(0) && !m_isShooting)
         {
             m_isShooting = true;
             StartCoroutine(SpawnBulletAfterDelay());
         }
-        
-        
-
     }
 
     private void MoveFirstPlayer()
@@ -209,7 +208,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.tag == "bullet" && collision.gameObject.GetComponent<Bullet>().m_teamColor != m_teamColor)
         {
-            
+
             Destroy(collision.gameObject);
             Instantiate(m_playerHitParticleSystem, transform.position, Quaternion.identity);
             cameraShake.shakeDuration = 0.1f;
@@ -245,8 +244,8 @@ public class PlayerController : MonoBehaviour
             AudioManager.Instance.PlaySound("LaserShot");
             m_bulletInMag -= 1;
             yield return new WaitForSeconds(GameManager.Instance.Config.ShootDelay);
-            
-        } 
+
+        }
         m_isShooting = false;
     }
 

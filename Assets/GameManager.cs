@@ -12,11 +12,21 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Text m_gameOverText;
     [SerializeField] private GameConfig m_gameConfig;
+    [SerializeField] private GameObject m_levelOrigin;
+    [SerializeField] private GameObject[] m_levels;
 
     private bool m_canContinue = false;
     void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        // Load level
+        var index = Random.Range(0, m_levels.Length);
+        var level = m_levels[index];
+        Instantiate(level, m_levelOrigin.transform);
     }
 
     public void SetGameOver()
@@ -33,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        if (m_canContinue && (Input.GetButton("XboxRBPlayer1") || Input.GetButton("XboxRBPlayer2")))
+        if (m_canContinue && (Input.GetMouseButtonDown(0) || Input.GetButton("XboxRBPlayer1") || Input.GetButton("XboxRBPlayer2")))
         {
             SceneManager.LoadScene("NovaTestScene");
         }
