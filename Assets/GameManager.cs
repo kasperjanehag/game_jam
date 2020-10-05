@@ -18,6 +18,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Image m_image;
     [SerializeField] private Text m_text;
 
+    [SerializeField]
+    private GameObject[] m_healthPlayerOne;
+    [SerializeField]
+    private GameObject[] m_healthPlayerTwo;
+
+    [SerializeField]
+    private Text m_scoreTextPlayerOne;
+    [SerializeField]
+    private Text m_scoreTextPlayerTwo;
+
+    private static int m_scorePlayerOne = 0;
+    private static int m_scorePlayerTwo = 0;
+
     private bool m_gameOver = false;
     public static bool m_hasStartedFirstTime = false;
 
@@ -28,12 +41,27 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    public void SetHealth(int health, bool isPlayerOne)
+    {
+        if (isPlayerOne)
+        {
+            m_healthPlayerOne[health].SetActive(false);
+        }
+        else
+        {
+            m_healthPlayerTwo[health].SetActive(false);
+        }
+    }
+
     private void Start()
     {
         // Load level
         var index = Random.Range(0, m_levels.Length);
         var level = m_levels[index];
         Instantiate(level, m_levelOrigin.transform);
+
+        m_scoreTextPlayerOne.text = "PLAYER ONE \n" + m_scorePlayerOne;
+        m_scoreTextPlayerTwo.text = "PLAYER TWO \n" + m_scorePlayerTwo;
 
         if (m_hasStartedFirstTime)
         {
@@ -45,7 +73,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SetGameOver()
+    public void SetGameOver(bool isPlayerOne)
     {
         m_gameOver = true;
         HasStarted = false;
@@ -53,7 +81,21 @@ public class GameManager : MonoBehaviour
         m_image.gameObject.SetActive(true);
         m_image.CrossFadeAlpha(1, 0.5f, false);
         m_text.gameObject.SetActive(true);
-        m_text.text = "GAME OVER! PRESS ANY BUTTON TO RESTART!";
+
+        if (isPlayerOne)
+        {
+            m_scorePlayerOne++;
+        }
+        else
+        {
+            m_scorePlayerTwo++;
+        }
+
+        m_scoreTextPlayerOne.text = "PLAYER ONE \n" + m_scorePlayerOne;
+        m_scoreTextPlayerTwo.text = "PLAYER TWO \n" + m_scorePlayerTwo;
+
+        var playerOneText = isPlayerOne ? "PLAYER 1" : "PLAYER 2";
+        m_text.text = playerOneText + " WON! PRESS ANY BUTTON TO RESTART!";
     }
 
     private IEnumerator SetCanContinueAfterDelay()

@@ -118,8 +118,6 @@ public class PlayerController : MonoBehaviour
         //     StartCoroutine(SpawnBulletAfterDelay());
         // }
 
-
-
         var moveX = Input.GetAxis("Horizontal");
         var moveY = Input.GetAxis("Vertical");
 
@@ -216,6 +214,8 @@ public class PlayerController : MonoBehaviour
             cameraShake.shakeDuration = 0.2f;
             m_health -= 1;
 
+
+            GameManager.Instance.SetHealth(m_health, !m_isSecondPlayer);
             if (m_health == 0)
             {
                 GameOver();
@@ -225,7 +225,7 @@ public class PlayerController : MonoBehaviour
 
     private void GameOver()
     {
-        GameManager.Instance.SetGameOver();
+        GameManager.Instance.SetGameOver(m_isSecondPlayer);
         isAlive = false;
     }
 
@@ -259,66 +259,69 @@ public class PlayerController : MonoBehaviour
     }
     void OnGUI()
     {
-        if (m_healthIcon)
-        {
-            Vector2 healthBarDirection = new Vector2();
-            Vector2 healthPosition = new Vector2();
-            switch (m_healthBarPosition)
-            {
-                case HealthBarPosition.TopLeft:
-                    healthPosition = new Vector2(10, 10);
-                    if (m_horizontalHealthBar)
-                    {
-                        healthBarDirection = new Vector2(1, 0);
-                    }
-                    else
-                    {
-                        healthBarDirection = new Vector2(0, 1);
-                    }
-                    break;
-                case HealthBarPosition.TopRight:
-                    healthPosition = new Vector2(Screen.width - 10 - m_healthIcon.width, 10);
-                    if (m_horizontalHealthBar)
-                    {
-                        healthBarDirection = new Vector2(-1, 0);
-                    }
-                    else
-                    {
-                        healthBarDirection = new Vector2(0, 1);
-                    }
-                    break;
-                case HealthBarPosition.BottomLeft:
-                    healthPosition = new Vector2(10, Screen.height - 10 - m_healthIcon.height);
-                    if (m_horizontalHealthBar)
-                    {
-                        healthBarDirection = new Vector2(1, 0);
-                    }
-                    else
-                    {
-                        healthBarDirection = new Vector2(0, -1);
-                    }
-                    break;
-                case HealthBarPosition.BottomRight:
-                    healthPosition = new Vector2(Screen.width - 10 - m_healthIcon.width, Screen.height - 10 - m_healthIcon.height);
-                    if (m_horizontalHealthBar)
-                    {
-                        healthBarDirection = new Vector2(-1, 0);
-                    }
-                    else
-                    {
-                        healthBarDirection = new Vector2(0, -1);
-                    }
-                    break;
-            }
 
-            Vector2 hpIconPos = healthPosition;
-            for (int i = 0; i < m_health; i++)
-            {
-                Vector2 iconSize = new Vector2(m_healthIcon.width, m_healthIcon.height);
-                GUI.DrawTexture(new Rect(hpIconPos.x, hpIconPos.y, m_healthIcon.width, m_healthIcon.height), m_healthIcon, ScaleMode.ScaleToFit, true, 0, m_color, 0, 0);
 
-                hpIconPos += healthBarDirection * iconSize * 0.6f /*+ 5 * healthBarDirection*/;
-            }
-        }
+
+        // if (m_healthIcon)
+        // {
+        //     Vector2 healthBarDirection = new Vector2();
+        //     Vector2 healthPosition = new Vector2();
+        //     switch (m_healthBarPosition)
+        //     {
+        //         case HealthBarPosition.TopLeft:
+        //             healthPosition = new Vector2(10, 10);
+        //             if (m_horizontalHealthBar)
+        //             {
+        //                 healthBarDirection = new Vector2(1, 0);
+        //             }
+        //             else
+        //             {
+        //                 healthBarDirection = new Vector2(0, 1);
+        //             }
+        //             break;
+        //         case HealthBarPosition.TopRight:
+        //             healthPosition = new Vector2(Screen.width - 10 - m_healthIcon.width, 10);
+        //             if (m_horizontalHealthBar)
+        //             {
+        //                 healthBarDirection = new Vector2(-1, 0);
+        //             }
+        //             else
+        //             {
+        //                 healthBarDirection = new Vector2(0, 1);
+        //             }
+        //             break;
+        //         case HealthBarPosition.BottomLeft:
+        //             healthPosition = new Vector2(10, Screen.height - 10 - m_healthIcon.height);
+        //             if (m_horizontalHealthBar)
+        //             {
+        //                 healthBarDirection = new Vector2(1, 0);
+        //             }
+        //             else
+        //             {
+        //                 healthBarDirection = new Vector2(0, -1);
+        //             }
+        //             break;
+        //         case HealthBarPosition.BottomRight:
+        //             healthPosition = new Vector2(Screen.width - 10 - m_healthIcon.width, Screen.height - 10 - m_healthIcon.height);
+        //             if (m_horizontalHealthBar)
+        //             {
+        //                 healthBarDirection = new Vector2(-1, 0);
+        //             }
+        //             else
+        //             {
+        //                 healthBarDirection = new Vector2(0, -1);
+        //             }
+        //             break;
+        //     }
+        //
+        //     Vector2 hpIconPos = healthPosition;
+        //     for (int i = 0; i < m_health; i++)
+        //     {
+        //         Vector2 iconSize = new Vector2(m_healthIcon.width, m_healthIcon.height);
+        //         GUI.DrawTexture(new Rect(hpIconPos.x, hpIconPos.y, m_healthIcon.width, m_healthIcon.height), m_healthIcon, ScaleMode.ScaleToFit, true, 0, m_color, 0, 0);
+        //
+        //         hpIconPos += healthBarDirection * iconSize * 0.6f /*+ 5 * healthBarDirection*/;
+        //     }
+        // }
     }
 }

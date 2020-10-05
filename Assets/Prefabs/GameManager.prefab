@@ -43,4 +43,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee9664384bc42074b9ed5d5bde8c45cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_gameOverText: {fileID: 0}
   m_gameConfig: {fileID: 11400000, guid: 48a73c7eb53bc8d4d977d4ab510bdfb4, type: 2}
+  m_levelOrigin: {fileID: 0}
+  m_levels:
+  - {fileID: 5510017145140831895, guid: b5db42359063c7548aa2156d03dafb4e, type: 3}
+  - {fileID: 5216058023902514655, guid: be9b6ad1a1e462b43a8bd3a2c569720d, type: 3}
+  - {fileID: 5510017145140831895, guid: e5cb570d12b99454b9bfe6625ecee2f5, type: 3}
+  - {fileID: 5510017145140831895, guid: 0df5758cd153275449de53bc69debcc5, type: 3}
+  m_image: {fileID: 0}
+  m_text: {fileID: 0}
+  m_healthPlayerOne:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_healthPlayerTwo:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_scoreTextPlayerOne: {fileID: 0}
+  m_scoreTextPlayerTwo: {fileID: 0}
+  HasStarted: 0
