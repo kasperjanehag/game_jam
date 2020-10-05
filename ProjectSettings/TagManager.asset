@@ -4,16 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - bullet
-  - portal1
-  - portal2
-  - portal3
   - portal4
-<<<<<<< HEAD
+  - bullet
+  - portal2
   - enemy
-=======
+  - portal3
+  - portal1
   - GroundPlane
->>>>>>> 4486b86545f4207520e64538b8692e310a3b95df
   layers:
   - Default
   - TransparentFX
