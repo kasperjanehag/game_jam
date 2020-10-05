@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!isAlive) return;
+        if (!isAlive || !GameManager.Instance.HasStarted) return;
 
         isGrounded = m_characterController.isGrounded;
         if (isGrounded && playerVelocity.y < 0)
