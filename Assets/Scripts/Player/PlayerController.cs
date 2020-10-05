@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public enum TeamColor
@@ -53,6 +50,8 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isAlive = true;
 
+    private float enemyShootDt = 0f;
+
     void Start()
     {
         Cursor.visible = true;
@@ -85,12 +84,42 @@ public class PlayerController : MonoBehaviour
     {
         if (m_isSecondPlayer)
         {
-            MoveSecondPlayer();
+            MoveSecondPlayerAI();
         }
         else
         {
             MoveFirstPlayer();
         }
+    }
+
+    private void MoveSecondPlayerAI()
+    {
+        // Find player pos
+        //var otherPlayerPosition =
+
+        //var vec = new Vector3() - transform.position;
+        var obj = GameObject.FindGameObjectWithTag("PlayerOne");
+        var vec = obj.transform.position - transform.position;
+        vec.Normalize();
+
+        transform.forward = vec;
+
+        var move = vec * 2f;
+
+        if (enemyShootDt > 1f)
+        {
+            enemyShootDt = 0f;
+            ShootPlayer();
+        }
+        enemyShootDt += Time.deltaTime;
+        m_characterController.Move(move * Time.deltaTime);
+    }
+
+    private void ShootPlayer()
+    {
+        //var obj = GameObject.FindGameObjectWithTag("PlayerOne");
+        //var vec = obj.transform.position - transform.position;
+        StartCoroutine(SpawnBulletAfterDelay());
     }
 
     private void ManageKeyboardInput()
@@ -203,17 +232,14 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-
         if (collision.gameObject.tag == "bullet" && collision.gameObject.GetComponent<Bullet>().m_teamColor != m_teamColor)
         {
-
             Destroy(collision.gameObject);
             Instantiate(m_playerHitParticleSystem, transform.position, Quaternion.identity);
             cameraShake.shakeDuration = 0.1f;
             cameraShake.shakeAmount = 0.7f;
             cameraShake.shakeDuration = 0.2f;
             m_health -= 1;
-
 
             GameManager.Instance.SetHealth(m_health, !m_isSecondPlayer);
             if (m_health == 0)
@@ -233,8 +259,7 @@ public class PlayerController : MonoBehaviour
     {
         if (m_bulletInMag >= 1)
         {
-
-            Debug.Log("bullet inmag" + m_bulletInMag);
+            //Debug.Log("bullet inmag" + m_bulletInMag);
             m_arrows[m_bulletInMag - 1].SetActive(false);
 
             var bullet = Instantiate(m_bullet, transform.position + transform.forward * 2f, transform.rotation);

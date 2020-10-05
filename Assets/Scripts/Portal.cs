@@ -14,7 +14,7 @@ public class Portal : MonoBehaviour
         {
             collider.gameObject.transform.position = getOtherPortalPos();
         }
-        if (collider.gameObject.tag == "Player" && m_teamColor == collider.gameObject.GetComponent<PlayerController>().m_teamColor)
+        if (collider.gameObject.tag == "Player" || collider.gameObject.tag == "PlayerOne" && m_teamColor == collider.gameObject.GetComponent<PlayerController>().m_teamColor)
         {
             AudioManager.Instance.PlaySound("Portal");
             PlayerController pc = collider.gameObject.GetComponent<PlayerController>();
