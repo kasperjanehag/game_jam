@@ -66,10 +66,6 @@ public class GameManager : MonoBehaviour
         if (m_hasStartedFirstTime)
         {
             StartCoroutine(FadeOutImageAndStartGame());
-            //HasStarted = true;
-
-            //m_image.gameObject.SetActive(false);
-            //m_text.gameObject.SetActive(false);
         }
     }
 
@@ -80,6 +76,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SetCanContinueAfterDelay());
         m_image.gameObject.SetActive(true);
         m_image.CrossFadeAlpha(1, 0.5f, false);
+        m_text.gameObject.SetActive(true);
         m_text.gameObject.SetActive(true);
 
         if (isPlayerOne)

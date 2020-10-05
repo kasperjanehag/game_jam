@@ -1,4 +1,4 @@
-﻿  
+﻿
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +20,7 @@ public class GameConfig : ScriptableObject
     public int BulletBounceDestroy = 5;
 
     public int MaxBulletInMag = 5;
-    
+
 
     [Header("Enemy")]
     public float WaveInterval = 2f;
@@ -30,4 +30,8 @@ public class GameConfig : ScriptableObject
 
     [Header("Portal")]
     public float portalRotationSpeed = 10f;
+
+    [Header("Portal")]
+    public float AIMoveSpeed = 2f;
+    public float AIShootInterval = 2f;
 }

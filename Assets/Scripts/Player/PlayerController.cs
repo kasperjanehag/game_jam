@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum TeamColor
 {
@@ -99,20 +100,47 @@ public class PlayerController : MonoBehaviour
 
         //var vec = new Vector3() - transform.position;
         var obj = GameObject.FindGameObjectWithTag("PlayerOne");
+
+        if (Vector3.Distance(obj.transform.position, transform.position) < 3f)
+        {
+            GetComponent<NavMeshAgent>().velocity = Vector3.zero;
+            GetComponent<NavMeshAgent>().destination = Vector3.zero;
+            return;
+        }
+
         var vec = obj.transform.position - transform.position;
         vec.Normalize();
 
         transform.forward = vec;
 
-        var move = vec * 2f;
+        var move = vec * GameManager.Instance.Config.AIMoveSpeed;
 
-        if (enemyShootDt > 1f)
+        if (enemyShootDt > GameManager.Instance.Config.AIShootInterval)
         {
             enemyShootDt = 0f;
             ShootPlayer();
         }
         enemyShootDt += Time.deltaTime;
-        m_characterController.Move(move * Time.deltaTime);
+       // GetComponent<NavMeshAgent>().destination = obj.transform.position;
+
+
+
+//        m_characterController.Move(move * Time.deltaTime);
+
+
+        GetComponent<NavMeshAgent>().destination = obj.transform.position;
+        GetComponent<NavMeshAgent>().velocity =  GetComponent<NavMeshAgent>().desiredVelocity;
+
+        GetComponent<NavMeshAgent>().updatePosition = false;
+        GetComponent<NavMeshAgent>().updateRotation = false;
+
+       // lookPos = this._playerTrans.position - this.transform.position;
+       // lookPos.y = 0;
+        //targetRot = Quaternion.LookRotation(lookPos);
+        //this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * this._turnSpeed);
+
+        m_characterController.Move( GetComponent<NavMeshAgent>().desiredVelocity.normalized * GameManager.Instance.Config.AIMoveSpeed * Time.deltaTime);
+        GetComponent<NavMeshAgent>().velocity = m_characterController.velocity;
     }
 
     private void ShootPlayer()
@@ -232,7 +260,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "bullet" && collision.gameObject.GetComponent<Bullet>().m_teamColor != m_teamColor)
+        if (collision.gameObject.tag == "bullet" && collision.gameObject.GetComponent<Bullet>().m_teamColor != m_teamColor && isAlive)
         {
             Destroy(collision.gameObject);
             Instantiate(m_playerHitParticleSystem, transform.position, Quaternion.identity);
