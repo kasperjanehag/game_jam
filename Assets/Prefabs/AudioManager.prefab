@@ -73,6 +73,13 @@ MonoBehaviour:
     RandomVolume: 0
     RandomPitch: 0
     IsLooping: 0
+  - Name: Portal
+    Clip: {fileID: 8300000, guid: a14936410ec7b114b909edb5d0ac0655, type: 3}
+    Volume: 0.562
+    Pitch: 0.681
+    RandomVolume: 0
+    RandomPitch: 0
+    IsLooping: 0
 --- !u!82 &1411355309
 AudioSource:
   m_ObjectHideFlags: 0
