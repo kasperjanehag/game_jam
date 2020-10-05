@@ -18286,6 +18286,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2604396348828194478, guid: 2c716334214b71549819a485a76254b3,
+        type: 3}
+      propertyPath: m_Text
+      value: CONNECT TWO CONTROLLERS AND PRESS RB TO START
+      objectReference: {fileID: 0}
     - target: {fileID: 3329664452238529124, guid: 2c716334214b71549819a485a76254b3,
         type: 3}
       propertyPath: m_LocalPosition.x
