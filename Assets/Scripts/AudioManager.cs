@@ -42,7 +42,7 @@
 
         private void Awake()
         {
-            DontDestroyOnLoad(this);
+            // DontDestroyOnLoad(this);
 
             if (Instance != null)
             {

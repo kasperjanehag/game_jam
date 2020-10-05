@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 459750}
   - component: {fileID: 19814690}
   - component: {fileID: 19945710}
+  - component: {fileID: -8710540518871415438}
   m_Layer: 0
-  m_Name: Player_1_HitParticle
+  m_Name: HitParticleAndSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -641,7 +642,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 0
+    type: 17
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -728,7 +729,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.1
+      value: 0.2
       mode: 0
       spread: 0
       speed:
@@ -1352,7 +1353,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.23529413, g: 0.23529413, b: 0.23529413, a: 1}
+        key0: {r: 0.8773585, g: 0.8773585, b: 0.8773585, a: 1}
         key1: {r: 1, g: 0, b: 0.9153609, a: 1}
         key2: {r: 1, g: 0, b: 0.9153609, a: 1}
         key3: {r: 0.42745098, g: 0, b: 0, a: 0}
@@ -1360,7 +1361,7 @@ ParticleSystem:
         key5: {r: 1, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
-        ctime0: 1928
+        ctime0: 4433
         ctime1: 65535
         ctime2: 65535
         ctime3: 65535
@@ -3757,8 +3758,8 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 0
-    ratio: 0
+    enabled: 1
+    ratio: 0.5
     light: {fileID: 0}
     randomDistribution: 1
     color: 1
@@ -3820,7 +3821,7 @@ ParticleSystem:
     intensityCurve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 10
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4749,3 +4750,15 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &-8710540518871415438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e16a6dfc8d7c21540922914976d17b01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -44,6 +44,7 @@ public class Bullet : MonoBehaviour
         var direction = Vector3.Reflect(m_direction, collisionNormal);
         m_direction = direction;
         bounceCounter += 1;
+        AudioManager.Instance.PlaySound("Bounce");
         if (bounceCounter == GameManager.Instance.Config.BulletBounceDestroy) {
             Destroy(gameObject);
         }
