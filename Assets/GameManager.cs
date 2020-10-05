@@ -72,14 +72,19 @@ public class GameManager : MonoBehaviour
         HasStarted = true;
     }
 
+    private bool IsButtonDown()
+    {
+        return (Input.GetMouseButtonDown(0) || Input.GetButton("XboxRBPlayer1") || Input.GetButton("XboxRBPlayer2"));
+    }
+
     public void Update()
     {
-        if (!HasStarted && Input.GetMouseButtonDown(0) && !m_gameOver)
+        if (!HasStarted && IsButtonDown() && !m_gameOver)
         {
             StartCoroutine(FadeOutImageAndStartGame());
         }
 
-        if (m_canContinue && (Input.GetMouseButtonDown(0) || Input.GetButton("XboxRBPlayer1") || Input.GetButton("XboxRBPlayer2")))
+        if (m_canContinue && IsButtonDown())
         {
             SceneManager.LoadScene("NovaTestScene");
         }
